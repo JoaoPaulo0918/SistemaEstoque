@@ -1,0 +1,72 @@
+<!-- Navbar: Barra de navegação superior -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top" id="nav">
+  <!-- Botão de alternância para dispositivos móveis -->
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarNav"
+    aria-controls="navbarNav"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <!-- Ícone de alternância (três linhas horizontais) -->
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Conteúdo da barra de navegação, que será colapsado em dispositivos móveis -->
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <!-- Condicional: Verifica se o usuário está autenticado -->
+      {{#if user}}
+        <!-- Itens de navegação visíveis para usuários autenticados -->
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/admin">
+            Home
+          </a>
+        </li>
+        
+        
+        <li class="nav-item">
+          <a class="nav-link" href="/usuarios/logout">
+            Sair
+          </a>
+        </li>
+      {{else}}
+        <!-- Itens de navegação visíveis para usuários não autenticados -->
+        {{#unless user}}
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/admin" id="ini">
+              Home
+            </a>
+          </li>
+          <li class="nav-item"> 
+            <a class="nav-link active" aria-current="page" href="/admin/inicio" id="sobre">
+              Sobre
+            </a>
+          </li>
+          <!-- Menu suspenso para o Mapa -->
+        
+        {{/unless}}
+      {{/if}}
+    </ul>
+  </div>
+</nav>
+
+<!-- Script para confirmar o logout -->
+<script>
+  // Seleciona o link de sair usando o ID 'sair'
+  const sair = document.getElementById('sair');
+  
+  // Adiciona um evento de clique ao link de sair
+  sair.addEventListener('click', (event) => {
+    // Previne a navegação imediata ao clicar no link
+    event.preventDefault();
+    
+    // Exibe um alerta de confirmação
+    alert('Tem certeza que deseja sair?');
+    
+    // Se o usuário confirmar, redireciona para a página de login
+    window.location.href = '/admin/logar';
+  });
+</script>

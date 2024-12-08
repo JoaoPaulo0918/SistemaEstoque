@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zona Azul</title>
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+  <!-- Cabeçalho -->
+  <header class="hero">
+   
+    <div class="cta">
+      <h1>Facilite sua Mobilidade com a Zona Azul</h1>
+      <p>Compre, gerencie e saiba tudo sobre suas vagas.</p>
+      
+      <button onclick="comprarCreditos()">Acessar QR-Code</button>
+      <button onclick="scrollToSection('beneficios')">Saiba Mais</button>
+    </div>
+    <div id="qrDiv">
+      
+        <img  id="imgQR" src="./Captura de tela 2024-12-01 223958.jpg" alt="">
+     
+    </div>
+  </header>
+
+  <!-- Benefícios -->
+  <section id="beneficios" class="benefits">
+    <h2>Por que escolher a Zona Azul?</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Fácil de Usar</h3>
+        <p>Reserve sua vaga com poucos cliques.</p>
+      </div>
+      <div class="card">
+        <h3>Pagamento Rápido</h3>
+        <p>Use cartão ou Pix sem complicações.</p>
+      </div>
+      <div class="card">
+        <h3>Alertas Inteligentes</h3>
+        <p>Notificações para você não esquecer o horário.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mapa -->
+  <section id="mapa" class="map">
+    <h2>Áreas Cobertas</h2>
+    <div id="map"></div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer>
+    <p>&copy; 2024 Zona Azul. Todos os direitos reservados.</p>
+  </footer>
+
+  <script src="./index.js"></script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!-- Configuração específica de estilos para elementos HTML nesta página -->
+<style>
+  body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Estilo para o título, posiciona-o com uma margem superior de 15vh e define a cor do texto */
+  #titulo {
+    margin-top: 15vh; /* Espaçamento superior do título */
+    color: blueviolet; /* Cor do texto do título */
+  }
+
+  /* Estilo para os cartões, adiciona uma margem superior */
+  .card {
+    margin-top: 5vh; /* Espaçamento superior do cartão */
+  }
+
+  /* Estilo para o botão de criar, define a cor do texto como branco */
+  #btnCriar {
+    color: white; /* Cor do texto do botão */
+  }
+
+  #ini{
+    display: none;
+  }
+
+  #sobre{
+    display: none;
+  }
+
+  /* Esconde o elemento com id 'sair' */
+  #sair {
+    display: none; /* O elemento não será exibido */
+  }
+</style>
+
+<!-- Exibição de erros (se houver) usando um loop Handlebars -->
+{{#each erros}}
+  <div class="alert alert-danger">
+    {{texto}} <!-- Exibe o texto do erro -->
+  </div>
+{{else}}
+  <!-- Se não houver erros, nada será exibido -->
+{{/each}}
+
+
+
+<div class="container" style="display:flex; align-items: center; flex-direction:column">
+
+  <!-- Título da página com um link para registro -->
+  <h2 id="titulo">
+    Login:  
+    <a href="/usuarios/registro">
+      <button class="btn btn-info" id="btnCriar">
+        Criar
+        <svg
+          xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right"
+          viewBox="0 0 16 16">
+          <path fill-rule="evenodd"
+            d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+        </svg>
+      </button>
+    </a>
+  </h2>
+
+
+  <!-- Div para o formulário de login -->
+  <div class="card" style="width: 25rem;">
+    <div class="card-body">
+      <!-- Formulário para login -->
+      <form action="/usuarios/login" method="post">
+        <!-- Campo para email -->
+        <label for="email">
+          Email:
+        </label>
+        <input
+          class="form-control"
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Seu email"
+          required
+        />
+        <br />
+
+        <!-- Campo para senha -->
+        <label for="senha">
+          Senha:
+        </label>
+        <input
+          class="form-control"
+          type="password"
+          name="senha"
+          id="senha"
+          placeholder="Sua senha"
+          required
+        />
+
+        <!-- Botão de submissão do formulário -->
+        <div class="mt-4">
+          <button class="btn btn-primary" type="submit">
+            Entrar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>

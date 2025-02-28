@@ -1,0 +1,22 @@
+<!--Exibe uma menssagem se houver algum erro.-->
+{{#if error}}
+    <div class="alert alert-danger" id="erro" style="margin:10vh;">{{error}}</div>
+{{else}}
+
+{{/if}}
+
+
+<!--Verifica se a variável success_msg está definida e não é vazia.-->
+{{#if success_msg }}
+
+<!--Se success_msg estiver definida, exibe uma mensagem de sucesso dentro de um alerta Bootstrap.-->
+<div class="alert alert-success">{{success_msg}}</div>
+
+{{/if}}
+
+<!--Verifica se a variável error_msg está definida e não é vazia.-->
+{{#if error_msg}}
+
+<!--Se error_msg estiver definida, exibe uma mensagem de erro dentro de um alerta Bootstrap.-->
+<div class="alert alert-danger">{{error_msg}}</div>
+{{/if}}

@@ -38,6 +38,14 @@
   #sair {
     display: none; /* O elemento não será exibido */
   }
+
+  #senhaOlho{
+    border-left: none !important;
+  }
+
+  #senha{
+    border-right: none !important;
+  }
 </style>
 
 <!-- Exibição de erros (se houver) usando um loop Handlebars -->
@@ -77,30 +85,44 @@
       <form action="/admin/acesso" method="post">
         <!-- Campo para email -->
         <label for="nome">
-          Nome Usuario:
+          User:
         </label>
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" class="bi bi-person-fill" viewBox="0 0 16 16">
+            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+            </svg>
+          </span>
         <input
           class="form-control"
           type="text"
           name="usuario"
           id="usuario"
-          placeholder="Seu usuario"
+          placeholder="Username"
           required
         />
+        </div>
         <br />
 
         <!-- Campo para senha -->
         <label for="senha">
-          Senha:
+          Password:
         </label>
-        <input
-          class="form-control"
-          type="password"
-          name="senha"
-          id="senha"
-          placeholder="Sua senha"
-          required
-        />
+        <div class="input-group mb-3">
+          <span class="input-group-text" id="basic-addon1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" class="bi bi-key" id="olhoAberto" viewBox="0 0 16 16">
+            <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8m4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5"/>
+            <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+            </svg>
+          </span>
+          <input
+            class="form-control"
+            type="password"
+            name="senha"
+            id="senha"
+            placeholder="Password"
+            required
+          />
+          <span id="senhaOlho" class="input-group-text"><img src="../img/eye-slash.svg" id="olho" alt=""></span>
+        </div>
 
         <!-- Botão de submissão do formulário -->
         <div class="mt-4">
@@ -113,3 +135,23 @@
   </div>
 
 </div>
+
+<!-- Função usada para dar funcionalidade ao icon do olho, dentro da senha-->
+ <script>
+        let btn = document.querySelector('#olho');
+
+        btn.addEventListener('click', function() {
+            let input = document.querySelector('#senha');
+
+           if (input.getAttribute('type') == 'password') {
+                input.type = 'text';
+                btn.src = '../img/eye.svg'
+               
+            } else {
+                input.type = 'password';
+                btn.src = '../img/eye-slash.svg';
+            }
+        });
+    </script>
+
+   

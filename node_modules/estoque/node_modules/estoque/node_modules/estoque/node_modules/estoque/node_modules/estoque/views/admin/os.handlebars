@@ -305,7 +305,7 @@ footer {
                           </form>
                         </p>
                         <p>
-                          <form action="/admin/materiais/deletar" method="post">
+                          <form action="/admin/ordemServico/deletar" method="post">
                             <button class="btn btn-danger mt-2" id="btnDeletarTudo">
                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path>
@@ -353,7 +353,13 @@ footer {
     tabelaDados.innerHTML = '';
 
     ordens.forEach(ordem => {
-      const dataFormatada = formatarData(ordem.dataCriacao);
+
+       const dataFormatada = new Date(ordem.dataCriacao).toLocaleDateString('pt-BR', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric'
+              });
+      
       const row = document.createElement('tr');
       row.innerHTML = `
         <td>${ordem.diaSemana}</td>
@@ -365,10 +371,6 @@ footer {
     });
   }
 
-  function formatarData(dataISO) {
-    const data = new Date(dataISO);
-    return data.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
-  }
 
   document.getElementById('inputBusca').addEventListener('input', () => {
     const filtro = document.getElementById('inputBusca').value.trim();
@@ -396,18 +398,20 @@ footer {
   document.getElementById("btnDeletarTudo").addEventListener("click", function () {
     if (confirm("Tem certeza que deseja deletar todas as ordens de serviço? Essa ação não pode ser desfeita!")) {
         fetch("/admin/ordemServico/deletar-tudo", {
-            method: "POST"
+            method: "POST",
+            headers: { "Content-Type": "application/json" }, // Define o cabeçalho correto
+            body: JSON.stringify({}) // Envia um corpo vazio
         })
-        .then(response => {
-            if (response.ok) {
-                alert("Todos os materiais foram deletados com sucesso!");
-                location.reload(); // Atualiza a página para refletir as mudanças
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Todas as ordens foram deletadas com sucesso!");
+                location.reload();
             } else {
-                alert("Erro ao deletar os materiais.");
+                alert("Erro ao deletar as ordens de serviço.");
             }
         })
         .catch(error => console.error("Erro:", error));
     }
-});
-
+  });
 </script>

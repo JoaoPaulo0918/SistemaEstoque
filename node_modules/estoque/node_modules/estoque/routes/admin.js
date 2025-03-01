@@ -364,23 +364,25 @@ router.post("/ordemServico/update/:id", eAdmin, async (req, res) => {
 
 
 //Rota para deletar tudo na tabela
-router.post("/ordemServico/deletar", eAdmin, async (req, res) => {
+router.post("/ordemServico/deletar-tudo", async (req, res) => {
   try {
-    const ordemServico = await OrdemServico.findOneAndDelete({ _id: req.body.id, usuario: req.user._id });
+    // Deleta todas as ordens de serviço associadas ao usuário logado
+    const resultado = await OrdemServico.deleteMany({ usuario: req.user._id });
 
-    if (!ordemServico) {
-      req.flash("error_msg", "Você não tem permissão para deletar esta Ordem de Serviço.");
+    if (resultado.deletedCount === 0) {
+      req.flash("error_msg", "Nenhuma Ordem de Serviço encontrada para deletar.");
     } else {
-      req.flash("success_msg", "Ordem de Serviço deletada com sucesso!");
+      req.flash("success_msg", "Todas as Ordens de Serviço foram deletadas com sucesso!");
     }
 
-    res.redirect("/admin/ordemServico");
+    res.status(200).json({ success: true });
   } catch (error) {
     console.error(error);
-    req.flash("error_msg", "Erro ao deletar a Ordem de Serviço.");
-    res.redirect("/admin/ordemServico");
+    req.flash("error_msg", "Erro ao deletar as Ordens de Serviço.");
+    res.status(500).json({ success: false });
   }
 });
+
 
 
 

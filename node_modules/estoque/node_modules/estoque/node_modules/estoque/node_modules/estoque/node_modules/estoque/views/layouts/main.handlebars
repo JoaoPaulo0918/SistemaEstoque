@@ -156,6 +156,18 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
 
+<!--Script para confirmar o logout-->
+<script>
+  const sair = document.getElementById('sair');
+  sair.addEventListener('click', (event)=> {
+    event.preventDefault();
+
+    alert('Tem certeza que deseja sair ?');
+
+    window.location.href = '/admin';
+  })
+</script>
+
 <!-- Fecha o documento HTML -->
 
 </html>

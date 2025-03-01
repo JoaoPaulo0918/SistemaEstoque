@@ -102,6 +102,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Importar e usar rotas
 
+
     // Importa as rotas corretamente
 const adminRoutes = require('./routes/admin');
 const usuarioRoutes = require('./routes/usuario');
@@ -118,8 +119,10 @@ app.use((err, req, res, next) => {
 });
 
 
-// Iniciar o servidor
+// Definindo a porta para o servidor
 const PORT = process.env.PORT || 8081;
+const HOST = '0.0.0.0';  // Permitir conexões de qualquer IP
+
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });

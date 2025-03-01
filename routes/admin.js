@@ -363,6 +363,7 @@ router.post("/ordemServico/update/:id", eAdmin, async (req, res) => {
 });
 
 
+
 //Rota para deletar tudo na tabela
 router.post("/ordemServico/deletar-tudo", async (req, res) => {
   try {

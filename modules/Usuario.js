@@ -10,6 +10,7 @@ const UsuarioSchema = new Schema({
     veiculo: { type: String, required: true }
 });
 
+
 // **Registrando o modelo corretamente**
 const Usuario = mongoose.model("usuarios", UsuarioSchema);
 module.exports = Usuario;

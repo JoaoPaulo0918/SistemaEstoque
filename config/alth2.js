@@ -15,6 +15,7 @@ module.exports = function(passport) {
   passport.use(new LocalStrategy({
     usernameField: 'usuario',
     passwordField: 'senha'
+    
   }, async (usuario, senha, done) => {
     try {
       const user = await Usuario.findOne({ usuario: usuario });

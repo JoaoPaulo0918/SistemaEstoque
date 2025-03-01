@@ -5,6 +5,7 @@ module.exports = {
       }
       req.flash("error_msg", "Você precisa estar logado para acessar essa área!");
       res.redirect("/admin/acesso");
+      
     }
   };
   

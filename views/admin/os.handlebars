@@ -404,6 +404,7 @@ footer {
         })
         .then(response => response.json())
         .then(data => {
+          
             if (data.success) {
                 alert("Todas as ordens foram deletadas com sucesso!");
                 location.reload();

@@ -12,6 +12,7 @@ const AdminSchema = new Schema({
         type: String, // Tipo de dado: String
         required: true // Este campo é obrigatório
     },
+    
     // Campo para o email do usuário
     email: {
         type: String, // Tipo de dado: String

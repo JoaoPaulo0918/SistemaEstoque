@@ -7,7 +7,8 @@ const MaterialSchema = new mongoose.Schema({
     qtd: { type: Number, required: true },
     salvarEstoque: { type: Boolean, default: false },
     dataCriacao: { type: Date, default: Date.now },
-    usuario: { type: mongoose.Schema.Types.ObjectId, ref: "usuarios", required: true } // Relacionamento com o usuário
+    usuario: { type: mongoose.Schema.Types.ObjectId, ref: "usuarios", required: true } 
+    // Relacionamento com o usuário
 });
 
 const Material = mongoose.model('Material', MaterialSchema);

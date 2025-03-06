@@ -126,11 +126,26 @@ footer {
   margin-top: 4rem;
 }
 
+
 .alert-success{
   margin-top: 10vh;
 }
 
+ #p{
+  margin-top: -10rem;
+  margin-bottom: 7rem;
+ }
+
+
+
 /* Responsividade */
+@media (max-width: 1068px) {
+  #p{
+  margin-top: -7rem;
+  margin-bottom: 5rem;
+}
+}
+
 @media (max-width: 768px) {
   .container {
     flex-direction: column; /* Alinha verticalmente para telas menores */
@@ -149,6 +164,12 @@ footer {
   width: 8rem;
   height: 4.5rem;
 }
+
+#p{
+  margin-top: -7rem;
+  margin-bottom: 5rem;
+}
+
 }
 
 @media (max-width: 480px) {
@@ -181,10 +202,16 @@ footer {
     margin-top: 8rem;
   }
 
-    #imgLogo{
-  width: 10rem;
-  height: 5.5rem;
-}
+  #imgLogo{
+    width: 10rem;
+    height: 5.5rem;
+  }
+
+  #p{
+    margin-top: -3rem;
+    margin-left: 2rem;
+    margin-bottom: 5rem;
+  }
 }
 
 @media (max-width: 290px) {
@@ -192,6 +219,12 @@ footer {
   width: 10rem;
   height: 5.5rem;
 }
+
+#p{
+  margin-top: -2rem;
+  margin-left: 2rem;
+}
+
 }
 
 </style>
@@ -208,8 +241,8 @@ footer {
             
             <!--Parte ond fica a imagem e conteúdo-->  
             <div class="container-fluid" id="acessoLogo">
-              <img src="./img/Imagem do WhatsApp de 2025-03-02 à(s) 08.39.54_61f95068.png" class="img-fluid" alt="">
-              <h3 style="margin-top: -10rem; margin-bottom: 10rem">Bem vindo, <br> ao seu estoque pessoal</h3>
+              <img src="./img/logo.png" class="img-fluid" alt="">
+              <p id="p">Bem vindo, ao seu estoque pessoal</p>
             </div>
             
 

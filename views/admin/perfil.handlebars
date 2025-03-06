@@ -83,6 +83,11 @@
         margin-bottom: 2rem;
     }
 
+    #imgLogo{
+        width: 10rem;
+        height: 5rem;
+    }
+
     #divValores{
         width: 95%;
         display: flex;
@@ -110,23 +115,34 @@
     }
 
      @media (max-width: 314px) {
-       #divDados {
-        width: 158vw;
-        font-size: 1.3rem;
+      #divDados {
+      width: 158vw;
+      font-size: 1.3rem;
     }
 
-    #cardMeio {
-    width: 100vw;
-    display: flex
-    
-;
-    justify-content: space-around;
-    gap: 3rem;
-    margin-bottom: 7rem;
-    margin-top: 2rem;
-}
+      #cardMeio {
+      width: 100vw;
+      display: flex;
+      justify-content: space-around;
+      gap: 3rem;
+      margin-bottom: 7rem;
+      margin-top: 2rem;
+    }
+      #imgLogo{
+      width: 10rem;
+      height: 5rem;
+    }
 
     }
+
+    @media (max-width: 480px) {
+      #imgLogo{
+      width: 10.5rem;
+      height: 5.5rem;
+    }
+    }
+
+
 </style>
 
 {{#if dados}}

@@ -37,7 +37,7 @@ router.get('/', (req, res) => {
     res.render('index')
 });
 
-router.get('/inicio', (req, res) => {
+router.get('/inicio', eAdmin, async (req, res) => {
   res.render('admin/inicio')
 });
 

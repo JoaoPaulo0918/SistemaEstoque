@@ -267,6 +267,11 @@ footer {
           <form class="row g-3" id="formCadastro" action="/admin/materiais/update/{{material._id}}" method="POST">
             
             <input type="hidden" name="id" value="{{material._id}}">
+
+             <div class="col-md-2">
+                <label for="inputQtd" class="form-label">Qtd</label>
+                <input type="number" class="form-control" id="inputQtd" name="qtd" value="{{material.qtd}}">
+            </div>
             
             <div class="col-12">
                 <label for="inputObservacao" class="form-label">Observação</label>

@@ -96,7 +96,7 @@ body {
 }
 
 .divInfo {
-   /*background-color: #f00034;*/
+    /*background-color: #ff0404;*/
     background-color: #9eacff;
   /*background-color: #46fc83;*/
   margin-top: 7vh;
@@ -118,6 +118,15 @@ footer {
   color: #fff;
   text-align: center;
   padding: 1rem;
+}
+
+#imgLogo{
+  width: 8rem;
+  height: 5rem;
+}
+
+#home{
+  display: none;
 }
 
 /* Responsividade */
@@ -161,21 +170,31 @@ footer {
   footer{
     margin-top: 8rem;
   }
+
+  #imgLogo{
+  width: 10rem;
+  height: 5rem;
+}
+
+}
+
+@media (max-width: 480px) {
+  #imgLogo{
+  width: 10.5rem;
+  height: 5.5rem;
+}
 }
 
 
 </style>
 
 
-      
-
   <div class="container">
     
     <main class="content">
-
-
         <div id="lateral" class="card">
-         
+
+         <!--Card onde fica os botoes de paginas-->
           <div class="card-body" id="cardMeio">
             
             <p><a href="#" class="menuLink">
@@ -216,50 +235,205 @@ footer {
           </div>
         </div>
 
-      
+      <!--Card principal dos gráficos-->
       <div class="div2">
-        
-          <div class="card" style="width: 18rem;">
+        <div class="card" style="width: 18rem;">
             <div class="card-body">
-              
+                <h5 class="card-title">Estoque</h5>
+                <canvas id="graficoEstoque"></canvas>
             </div>
-          </div>
+        </div>
 
-
-          <div class="card" style="width: 18rem;">
+        <div class="card" style="width: 18rem;">
             <div class="card-body">
-              
+                <h5 class="card-title">Ordens de Serviço</h5>
+                <canvas id="graficoOS"></canvas>
             </div>
-          </div>
+        </div>
 
-          <div class="card" style="width: 18rem;">
+        <div class="card" style="width: 18rem;">
             <div class="card-body">
-             
+                <h5 class="card-title">Desempenho</h5>
+                <canvas id="graficoDesempenho"></canvas>
             </div>
-          </div>
+        </div>
 
+        <!--Cards para cores de acordo com a quantidade-->
         <div id="divInfo">
-          <div class="divInfo">
+          <div class="divInfo" id="cardEstoque">
             <h4>Estoque</h4>
-              <p>xxx</p>
+              <p id="paraEstoque">xxx</p>
           </div>
-          <div class="divInfo">
+          <div class="divInfo" id="cardOS">
             <h4>O.S</h4>
-              <p>xxx</p>
+              <p id="paraOS">xxx</p>
           </div>
-          <div class="divInfo">
+          <div class="divInfo" id="cardDesempenho">
             <h4>Desenpenho</h4>
-              <p>xxx</p>
+              <p id="paraDesempenho">xxx</p>
           </div>
         </div>
       </div>
 
+      <!--Rodapé da pagina-->
       <footer>
         <p>© 2024 - Estoque Facil</p>
       </footer>
-    </main>
-    
+
+    </main>  
   </div>
 
-  
-   
+
+<!--Script para carregar os dados e criar o gráfico-->
+<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+<script>
+    async function carregarDados() {
+        try {
+            // Buscar dados do backend
+            const materiais = await (await fetch('/admin/estoqueMateriais/json')).json();
+            const equipamentos = await (await fetch('/admin/estoqueEquipamentos/json')).json();
+            const ordensServico = await (await fetch('/admin/ordemServico/dados')).json();
+
+            // Somar os materiais e equipamentos para o gráfico de estoque
+            const totalMateriais = materiais.reduce((acc, item) => acc + item.qtd, 0);
+            const totalEquipamentos = equipamentos.reduce((acc, item) => acc + item.qtd, 0);
+            const totalOS = ordensServico.reduce((acc, os) => acc + (os.qtd || 1), 0); // Considera "1" se não houver campo `quantidade`
+
+            // Criar gráfico de Estoque
+            new Chart(document.getElementById('graficoEstoque').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Materiais', 'Equipamentos'],
+                    datasets: [{
+                        label: 'Estoque Total',
+                        data: [totalMateriais, totalEquipamentos],
+                        backgroundColor: ['blue', 'green']
+                    }]
+                }
+            });
+
+            // **Ajuste Aqui** → Criar gráfico de Ordens de Serviço com total correto
+            new Chart(document.getElementById('graficoOS').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Total O.S'],
+                    datasets: [{
+                        label: 'Quantidade Total de O.S',
+                        data: [totalOS], // Usa a soma das quantidades
+                        backgroundColor: ['red']
+                    }]
+                }
+            });
+
+            // Criar gráfico de Desempenho (baseado na quantidade de O.S concluídas)
+            const desempenho = ordensServico.filter(os => os.status === 'Concluída').length;
+            
+            new Chart(document.getElementById('graficoDesempenho').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: ['Total O.S', 'Concluídas'],
+                    datasets: [{
+                        label: 'Desempenho',
+                        data: [totalOS, desempenho], // Compara total de O.S com concluídas
+                        borderColor: 'purple',
+                        fill: false
+                    }]
+                }
+            });
+
+            
+
+        } catch (error) {
+            console.error('Erro ao carregar os dados:', error);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", carregarDados);
+</script>
+
+
+<!--Script para carregar os dados e mudar os cards com sua cores-->
+<script>
+async function carregarDados() {
+    try {
+        // Buscar dados do backend
+        const materiais = await (await fetch('/admin/estoqueMateriais/json')).json();
+        const ordensServico = await (await fetch('/admin/ordemServico/dados')).json();
+
+        const desempenho = ordensServico.filter(os => os.status === 'Concluída').length;
+
+        // Somar a quantidade total das ordens de serviço
+        const totalOS = ordensServico.reduce((acc, os) => acc + (os.qtd || 1), 0);
+        const totalMateriais = materiais.reduce((acc, item) => acc + item.qtd, 0);
+        
+
+        // Garantir que os elementos existem antes de tentar modificar
+        const cardEstoque = document.getElementById('cardEstoque');
+        const paraEstoque = document.getElementById('paraEstoque');
+        const cardOS = document.getElementById('cardOS');
+        const paraOS = document.getElementById('paraOS');
+        const cardDesempenho = document.getElementById('cardDesempenho');
+        const paradeSempenho = document.getElementById('paraDesempenho');
+
+        // Aplicar a lógica de cores
+        if (totalOS && desempenho >= 200) {
+            //Lógica para os
+            cardOS.style.background = 'green';
+            cardOS.style.color = 'white';
+            paraOS.innerText = 'Bom';
+
+            //Lógica para Desempenho
+            cardDesempenho.style.background = 'green';
+            cardDesempenho.style.color = 'white';
+            paradeSempenho.innerText = 'Bom';
+            
+
+        }else if (totalOS && desempenho >= 100) {
+            //Lógica para os
+            cardOS.style.background = 'azul';
+            cardOS.style.color = 'white';
+            paraOS.innerText = 'Razoável';
+
+            //Lógica para Desempenho
+            cardDesempenho.style.background = 'azul';
+            cardDesempenho.style.color = 'white';
+            paradeSempenho.innerText = 'Razoável';
+
+        }else {
+            //Lógica para os
+            cardOS.style.background = 'red';
+            cardOS.style.color = 'white';
+            paraOS.innerText = 'Ruim';
+            
+            //Lógica para Desempenho
+            cardDesempenho.style.background = 'red';
+            cardDesempenho.style.color = 'white';
+            paradeSempenho.innerText = 'Ruim';
+        }
+
+        if(totalMateriais >= 1600) {
+            //Lógica para Estoque
+            cardEstoque.style.background = 'green';
+            cardEstoque.style.color = 'white';
+            paraEstoque.innerText = 'Bom';
+            
+        }else if(totalMateriais >= 1000){
+            //Lógica para Estoque
+            cardEstoque.style.background = 'blue';
+            cardEstoque.style.color = 'white';
+            paraEstoque.innerText = 'Razoável'
+
+        }else{
+            //Lógica para Estoque
+            cardEstoque.style.background = 'red';
+            cardEstoque.style.color = 'white';
+            paraEstoque.innerText = 'Ruim'
+        }
+
+    } catch (error) {
+        console.error('Erro ao carregar os dados:', error);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", carregarDados);
+</script>

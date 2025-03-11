@@ -170,6 +170,14 @@ footer {
   height: 5rem;
 }
 
+.alert-success{
+  margin-top: 10vh;
+}
+
+.alert-danger{
+  margin-top: 10vh !important;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
   .container {
@@ -289,11 +297,11 @@ footer {
               <input type="text" class="form-control" id="inputMarca" name="marca">
             </div>
             <div class="col-md-6">
-              <label for="inputMac" class="form-label">Mac</label>
+              <label for="inputMac" class="form-label">Mac/SN</label>
               <input type="text" class="form-control" id="inputMac" name="mac">
             </div>
             <div class="col-12">
-              <label for="inputObservação" class="form-label">Observação</label>
+              <label for="inputObservação" class="form-label">Observação (Opcional)</label>
               <textarea class="form-control" id="inputObservação" name="observacao" rows="3"></textarea>
             </div>
             <div class="col-md-2">
@@ -336,7 +344,7 @@ footer {
                   <thead>
                     <tr>
                       <th>Marca</th>
-                      <th>MAC</th>
+                      <th>MAC/SN</th>
                       <th>Quantidade</th>
                       <th>Data</th>
                       <th>Observacao</th>
@@ -444,7 +452,7 @@ footer {
 
             <td>
                <!-- Formulário para deletar -->
-                <form action="/admin/produtos/deletar" method="post">
+                <form action="/admin/estoqueEquipamentos/deletar" method="post">
                   <input type="hidden" name="id" value="${produto._id}" />
                   <button type="submit" class="btn btn-danger mt-2" id="delet">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">

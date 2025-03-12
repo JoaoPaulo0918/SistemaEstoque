@@ -348,8 +348,6 @@ router.post("/ordemServico/update/:id", eAdmin, async (req, res) => {
     }
 
     // Atualiza apenas os campos permitidos
-    ordemServico.diaSemana = req.body.diaSemana;
-    ordemServico.qtd = req.body.qtd;
     ordemServico.observacao = req.body.observacao || ""; // Se não vier nada, mantém vazio
 
     await ordemServico.save();

@@ -289,6 +289,7 @@ router.post("/ordemServico/cadastrar", eAdmin, async (req, res) => {
     const novaOS = new OrdemServico({
       diaSemana: req.body.diaSemana,
       qtd: req.body.qtd,
+      pontuacao: req.body.pontuacao,
       observacao: req.body.observacao || "", // Se não for informado, fica como string vazia
       usuario: req.user._id // Vínculo com o usuário logado
     });
@@ -348,6 +349,7 @@ router.post("/ordemServico/update/:id", eAdmin, async (req, res) => {
     }
 
     // Atualiza apenas os campos permitidos
+    ordemServico.pontuacao = req.body.pontuacao;
     ordemServico.observacao = req.body.observacao || ""; // Se não vier nada, mantém vazio
 
     await ordemServico.save();
@@ -381,8 +383,6 @@ router.post("/ordemServico/deletar-tudo", async (req, res) => {
     res.status(500).json({ success: false });
   }
 });
-
-
 
 
 

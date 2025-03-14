@@ -197,7 +197,7 @@ footer {
          <!--Card onde fica os botoes de paginas-->
           <div class="card-body" id="cardMeio">
             
-            <p><a href="#" class="menuLink">
+            <p><a href="#" class="#">
               <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#221f36" class="bi bi-house-door" viewBox="0 0 16 16">
                 <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z"/>
               </svg>
@@ -298,6 +298,7 @@ footer {
             const totalMateriais = materiais.reduce((acc, item) => acc + item.qtd, 0);
             const totalEquipamentos = equipamentos.reduce((acc, item) => acc + item.qtd, 0);
             const totalOS = ordensServico.reduce((acc, os) => acc + (os.qtd || 1), 0); // Considera "1" se não houver campo `quantidade`
+            const totalPontuacao = ordensServico.reduce((acc, os) => acc + (os.pontuacao || 1), 0);
 
             // Criar gráfico de Estoque
             new Chart(document.getElementById('graficoEstoque').getContext('2d'), {
@@ -313,20 +314,33 @@ footer {
             });
 
             // **Ajuste Aqui** → Criar gráfico de Ordens de Serviço com total correto
-            new Chart(document.getElementById('graficoOS').getContext('2d'), {
+            const ctx = document.getElementById('graficoOS').getContext('2d');
+
+            let backgroundColor;
+
+            if (totalPontuacao <= 100) {
+                backgroundColor = 'red';
+            } else if (totalPontuacao <= 200) {
+                backgroundColor = 'blue';
+            } else {
+                backgroundColor = 'green'; // Corrigi a escrita de 'green'
+            }
+
+            new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Total O.S'],
+                    labels: ['Pontuação'],
                     datasets: [{
-                        label: 'Quantidade Total de O.S',
-                        data: [totalOS], // Usa a soma das quantidades
-                        backgroundColor: ['red']
+                        label: 'Quantidade Total de Pontos',
+                        data: [totalPontuacao],
+                        backgroundColor: [backgroundColor]
                     }]
                 }
             });
 
+
             // Criar gráfico de Desempenho (baseado na quantidade de O.S concluídas)
-            const desempenho = ordensServico.filter(os => os.status === 'Concluída').length;
+            const desempenho = totalOS;
             
             new Chart(document.getElementById('graficoDesempenho').getContext('2d'), {
                 type: 'line',
@@ -360,11 +374,13 @@ async function carregarDados() {
         const materiais = await (await fetch('/admin/estoqueMateriais/json')).json();
         const ordensServico = await (await fetch('/admin/ordemServico/dados')).json();
 
-        const desempenho = ordensServico.filter(os => os.status === 'Concluída').length;
+        const totalOS = ordensServico.reduce((acc, os) => acc + (os.qtd || 1), 0);
+        const desempenho = totalOS;
 
         // Somar a quantidade total das ordens de serviço
-        const totalOS = ordensServico.reduce((acc, os) => acc + (os.qtd || 1), 0);
+        
         const totalMateriais = materiais.reduce((acc, item) => acc + item.qtd, 0);
+        const totalPontuacao = ordensServico.reduce((acc, os) => acc + (os.pontuacao || 1), 0);
         
 
         // Garantir que os elementos existem antes de tentar modificar
@@ -375,41 +391,52 @@ async function carregarDados() {
         const cardDesempenho = document.getElementById('cardDesempenho');
         const paradeSempenho = document.getElementById('paraDesempenho');
 
-        // Aplicar a lógica de cores
-        if (totalOS && desempenho >= 200) {
+
+        // Aplicar a lógica de cores Pontuação
+        if (totalPontuacao >= 200) {
             //Lógica para os
             cardOS.style.background = 'green';
             cardOS.style.color = 'white';
-            paraOS.innerText = 'Bom';
+            paraOS.innerText = 'Bom'; 
 
-            //Lógica para Desempenho
-            cardDesempenho.style.background = 'green';
-            cardDesempenho.style.color = 'white';
-            paradeSempenho.innerText = 'Bom';
-            
-
-        }else if (totalOS && desempenho >= 100) {
+        }else if (totalPontuacao >= 100 ) {
             //Lógica para os
-            cardOS.style.background = 'azul';
+            cardOS.style.background = 'blue';
             cardOS.style.color = 'white';
             paraOS.innerText = 'Razoável';
 
-            //Lógica para Desempenho
-            cardDesempenho.style.background = 'azul';
-            cardDesempenho.style.color = 'white';
-            paradeSempenho.innerText = 'Razoável';
 
         }else {
             //Lógica para os
             cardOS.style.background = 'red';
             cardOS.style.color = 'white';
             paraOS.innerText = 'Ruim';
+          
+        }
+
+
+
+        if ( desempenho >= 200) {        
+            //Lógica para Desempenho
+            cardDesempenho.style.background = 'green';
+            cardDesempenho.style.color = 'white';
+            paradeSempenho.innerText = 'Bom';
             
+
+        }else if ( desempenho >= 100) {
+            //Lógica para Desempenho
+            cardDesempenho.style.background = 'blue';
+            cardDesempenho.style.color = 'white';
+            paradeSempenho.innerText = 'Razoável';
+
+        }else {       
             //Lógica para Desempenho
             cardDesempenho.style.background = 'red';
             cardDesempenho.style.color = 'white';
             paradeSempenho.innerText = 'Ruim';
         }
+
+
 
         if(totalMateriais >= 1600) {
             //Lógica para Estoque

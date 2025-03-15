@@ -68,8 +68,6 @@ body {
   
 }
 
-
-
 .menuLink{
   display: flex;
   text-decoration: none;
@@ -96,9 +94,7 @@ body {
 }
 
 .divInfo {
-    /*background-color: #ff0404;*/
-    background-color: #9eacff;
-  /*background-color: #46fc83;*/
+  background-color: #9eacff;
   margin-top: 7vh;
   text-align: center;
   border: 1px solid #363535;
@@ -130,6 +126,7 @@ footer {
 }
 
 /* Responsividade */
+/*Para telas com tamanho max ate 768*/
 @media (max-width: 768px) {
   .container {
     flex-direction: column; /* Alinha verticalmente para telas menores */
@@ -141,6 +138,7 @@ footer {
   }
 }
 
+/*Para telas com tamanho max ate 480*/
 @media (max-width: 480px) {
   body{
     justify-content: center;
@@ -178,7 +176,8 @@ footer {
 
 }
 
-@media (max-width: 480px) {
+/*Para telas com tamanho max ate 280*/
+@media (max-width: 280px) {
   #imgLogo{
   width: 10.5rem;
   height: 5.5rem;
@@ -189,6 +188,7 @@ footer {
 </style>
 
 
+<!--Corpo principal da paguna-->
   <div class="container">
     
     <main class="content">
@@ -394,20 +394,16 @@ async function carregarDados() {
 
         // Aplicar a lógica de cores Pontuação
         if (totalPontuacao >= 200) {
-            //Lógica para os
             cardOS.style.background = 'green';
             cardOS.style.color = 'white';
             paraOS.innerText = 'Bom'; 
 
         }else if (totalPontuacao >= 100 ) {
-            //Lógica para os
             cardOS.style.background = 'blue';
             cardOS.style.color = 'white';
             paraOS.innerText = 'Razoável';
 
-
         }else {
-            //Lógica para os
             cardOS.style.background = 'red';
             cardOS.style.color = 'white';
             paraOS.innerText = 'Ruim';
@@ -415,43 +411,36 @@ async function carregarDados() {
         }
 
 
-
-        if ( desempenho >= 200) {        
-            //Lógica para Desempenho
+        //Lógica para Desempenho
+        if ( desempenho >= 100) {        
             cardDesempenho.style.background = 'green';
             cardDesempenho.style.color = 'white';
             paradeSempenho.innerText = 'Bom';
             
-
-        }else if ( desempenho >= 100) {
-            //Lógica para Desempenho
+        }else if ( desempenho >= 70) {
             cardDesempenho.style.background = 'blue';
             cardDesempenho.style.color = 'white';
             paradeSempenho.innerText = 'Razoável';
 
         }else {       
-            //Lógica para Desempenho
             cardDesempenho.style.background = 'red';
             cardDesempenho.style.color = 'white';
             paradeSempenho.innerText = 'Ruim';
         }
 
 
-
+        //Lógica para Estoque
         if(totalMateriais >= 1600) {
-            //Lógica para Estoque
             cardEstoque.style.background = 'green';
             cardEstoque.style.color = 'white';
             paraEstoque.innerText = 'Bom';
             
         }else if(totalMateriais >= 1000){
-            //Lógica para Estoque
             cardEstoque.style.background = 'blue';
             cardEstoque.style.color = 'white';
             paraEstoque.innerText = 'Razoável'
 
         }else{
-            //Lógica para Estoque
             cardEstoque.style.background = 'red';
             cardEstoque.style.color = 'white';
             paraEstoque.innerText = 'Ruim'

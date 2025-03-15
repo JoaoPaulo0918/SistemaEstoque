@@ -178,18 +178,37 @@ footer {
   margin-top: 15vh;
 }
 
+
+.btn-primary{
+  margin-left: 1rem;
+}
+
+
 /* Responsividade */
+/*Para telas com tamanho max ate 968*/
+@media (max-width: 968px) {
+#butEdit{
+    margin-right: 2rem;
+  }
+}
+
+
+/*Para telas com tamanho max ate 768*/
 @media (max-width: 768px) {
   .container {
     flex-direction: column; /* Alinha verticalmente para telas menores */
   }
 
-
   #divInfo{
     gap: 2rem;
   }
+
+  #butEdit{
+    margin-right: 2rem;
+  }
 }
 
+/*Para telas com tamanho max ate 480*/
 @media (max-width: 480px) {
   body{
     justify-content: center;
@@ -226,6 +245,7 @@ footer {
 
 }
 
+/*Para telas com tamanho max ate 280*/
 @media (max-width: 280px) {
   #imgLogo{
   width: 10.5rem;
@@ -235,11 +255,10 @@ footer {
 
 </style>
 
+  <!--Div principal-->
   <div class="container">
     
-    <main class="content">
-
-     
+    <main class="content">   
 
         <div id="lateral" class="card">
          
@@ -288,9 +307,9 @@ footer {
         <p style="color: #fff;">Cadastro Equipamentos</p>
       </div>
 
+
       <div class="div2">
-        
-          
+          <!--Formulário para cadastro de equipamentos-->
           <form class="row g-3" method="post" action="/admin/estoqueEquipamentos/cadastrar">
             <div class="col-md-6">
               <label for="inputMarca" class="form-label">Marca</label>
@@ -324,6 +343,7 @@ footer {
           
       </div>
 
+           <!--Tabela de equipamentos-->
            <div class="card" id="divTabela">
             <div class="container-fluid">
       
@@ -359,14 +379,17 @@ footer {
             </div>
           </div>
 
+      <!--Rodapé da página-->
       <footer>
         <p>© 2024 - Estoque Facil</p>
       </footer>
+      
     </main>
     
   </div>
 
 
+<!--Script para gerar dados na tabela-->
  <script>
   document.addEventListener("DOMContentLoaded", () => {
     const tabelaBody = document.getElementById("tabelaBody");
@@ -442,7 +465,7 @@ footer {
             <td>
             
               <a href="/admin/produtos/edit/${produto._id}">
-                <button class="btn btn-primary">
+                <button class="btn btn-primary" id="butEdit">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
                     <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"></path>
                   </svg>

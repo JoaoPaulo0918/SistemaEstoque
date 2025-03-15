@@ -368,88 +368,88 @@ footer {
 
 <!--Script para carregar os dados e mudar os cards com sua cores-->
 <script>
-async function carregarDados() {
-    try {
-        // Buscar dados do backend
-        const materiais = await (await fetch('/admin/estoqueMateriais/json')).json();
-        const ordensServico = await (await fetch('/admin/ordemServico/dados')).json();
+  async function carregarDados() {
+      try {
+          // Buscar dados do backend
+          const materiais = await (await fetch('/admin/estoqueMateriais/json')).json();
+          const ordensServico = await (await fetch('/admin/ordemServico/dados')).json();
 
-        const totalOS = ordensServico.reduce((acc, os) => acc + (os.qtd || 1), 0);
-        const desempenho = totalOS;
+          const totalOS = ordensServico.reduce((acc, os) => acc + (os.qtd || 1), 0);
+          const desempenho = totalOS;
 
-        // Somar a quantidade total das ordens de serviço
-        
-        const totalMateriais = materiais.reduce((acc, item) => acc + item.qtd, 0);
-        const totalPontuacao = ordensServico.reduce((acc, os) => acc + (os.pontuacao || 1), 0);
-        
-
-        // Garantir que os elementos existem antes de tentar modificar
-        const cardEstoque = document.getElementById('cardEstoque');
-        const paraEstoque = document.getElementById('paraEstoque');
-        const cardOS = document.getElementById('cardOS');
-        const paraOS = document.getElementById('paraOS');
-        const cardDesempenho = document.getElementById('cardDesempenho');
-        const paradeSempenho = document.getElementById('paraDesempenho');
-
-
-        // Aplicar a lógica de cores Pontuação
-        if (totalPontuacao >= 200) {
-            cardOS.style.background = 'green';
-            cardOS.style.color = 'white';
-            paraOS.innerText = 'Bom'; 
-
-        }else if (totalPontuacao >= 100 ) {
-            cardOS.style.background = 'blue';
-            cardOS.style.color = 'white';
-            paraOS.innerText = 'Razoável';
-
-        }else {
-            cardOS.style.background = 'red';
-            cardOS.style.color = 'white';
-            paraOS.innerText = 'Ruim';
+          // Somar a quantidade total das ordens de serviço
           
-        }
+          const totalMateriais = materiais.reduce((acc, item) => acc + item.qtd, 0);
+          const totalPontuacao = ordensServico.reduce((acc, os) => acc + (os.pontuacao || 1), 0);
+          
+
+          // Garantir que os elementos existem antes de tentar modificar
+          const cardEstoque = document.getElementById('cardEstoque');
+          const paraEstoque = document.getElementById('paraEstoque');
+          const cardOS = document.getElementById('cardOS');
+          const paraOS = document.getElementById('paraOS');
+          const cardDesempenho = document.getElementById('cardDesempenho');
+          const paradeSempenho = document.getElementById('paraDesempenho');
 
 
-        //Lógica para Desempenho
-        if ( desempenho >= 100) {        
-            cardDesempenho.style.background = 'green';
-            cardDesempenho.style.color = 'white';
-            paradeSempenho.innerText = 'Bom';
+          // Aplicar a lógica de cores Pontuação
+          if (totalPontuacao >= 200) {
+              cardOS.style.background = 'green';
+              cardOS.style.color = 'white';
+              paraOS.innerText = 'Bom'; 
+
+          }else if (totalPontuacao >= 100 ) {
+              cardOS.style.background = 'blue';
+              cardOS.style.color = 'white';
+              paraOS.innerText = 'Razoável';
+
+          }else {
+              cardOS.style.background = 'red';
+              cardOS.style.color = 'white';
+              paraOS.innerText = 'Ruim';
             
-        }else if ( desempenho >= 70) {
-            cardDesempenho.style.background = 'blue';
-            cardDesempenho.style.color = 'white';
-            paradeSempenho.innerText = 'Razoável';
-
-        }else {       
-            cardDesempenho.style.background = 'red';
-            cardDesempenho.style.color = 'white';
-            paradeSempenho.innerText = 'Ruim';
-        }
+          }
 
 
-        //Lógica para Estoque
-        if(totalMateriais >= 1200) {
-            cardEstoque.style.background = 'green';
-            cardEstoque.style.color = 'white';
-            paraEstoque.innerText = 'Bom';
-            
-        }else if(totalMateriais >= 900){
-            cardEstoque.style.background = 'blue';
-            cardEstoque.style.color = 'white';
-            paraEstoque.innerText = 'Razoável'
+          //Lógica para Desempenho
+          if ( desempenho >= 100) {        
+              cardDesempenho.style.background = 'green';
+              cardDesempenho.style.color = 'white';
+              paradeSempenho.innerText = 'Bom';
+              
+          }else if ( desempenho >= 70) {
+              cardDesempenho.style.background = 'blue';
+              cardDesempenho.style.color = 'white';
+              paradeSempenho.innerText = 'Razoável';
 
-        }else{
-            cardEstoque.style.background = 'red';
-            cardEstoque.style.color = 'white';
-            paraEstoque.innerText = 'Ruim'
-        }
+          }else {       
+              cardDesempenho.style.background = 'red';
+              cardDesempenho.style.color = 'white';
+              paradeSempenho.innerText = 'Ruim';
+          }
 
-    } catch (error) {
-        console.error('Erro ao carregar os dados:', error);
-    }
-}
 
-document.addEventListener("DOMContentLoaded", carregarDados);
+          //Lógica para Estoque
+          if(totalMateriais >= 1200) {
+              cardEstoque.style.background = 'green';
+              cardEstoque.style.color = 'white';
+              paraEstoque.innerText = 'Bom';
+              
+          }else if(totalMateriais >= 900){
+              cardEstoque.style.background = 'blue';
+              cardEstoque.style.color = 'white';
+              paraEstoque.innerText = 'Razoável'
+
+          }else{
+              cardEstoque.style.background = 'red';
+              cardEstoque.style.color = 'white';
+              paraEstoque.innerText = 'Ruim'
+          }
+
+      } catch (error) {
+          console.error('Erro ao carregar os dados:', error);
+      }
+  }
+
+  document.addEventListener("DOMContentLoaded", carregarDados);
 </script>

@@ -430,12 +430,12 @@ async function carregarDados() {
 
 
         //Lógica para Estoque
-        if(totalMateriais >= 1600) {
+        if(totalMateriais >= 1200) {
             cardEstoque.style.background = 'green';
             cardEstoque.style.color = 'white';
             paraEstoque.innerText = 'Bom';
             
-        }else if(totalMateriais >= 1000){
+        }else if(totalMateriais >= 900){
             cardEstoque.style.background = 'blue';
             cardEstoque.style.color = 'white';
             paraEstoque.innerText = 'Razoável'

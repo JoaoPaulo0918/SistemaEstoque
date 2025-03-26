@@ -1,0 +1,15 @@
+# Exported from Render on 2024-08-22T02:17:06Z
+services:
+- type: web
+  name: PaginaUser
+  runtime: static
+  repo: 
+  envVars:
+  - key: Port
+    sync: false
+  buildCommand: node app.js
+  staticPublishPath: node app.js
+  autoDeploy: false
+  previews:
+    generation: manual
+version: "1"

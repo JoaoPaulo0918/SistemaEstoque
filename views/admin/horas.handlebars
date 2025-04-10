@@ -105,33 +105,32 @@
         margin-top: 5rem;
     }
 
-    #divProgresso1{
-        width: 47%;
-        height: 3dvh;
-        background-color: #221f36;;
-        margin: 0 auto;
-        position: relative;
-    }
+#divProgresso1, #divProgresso2 {
+  width: 100%;
+  height: 20px;
+  background-color: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
 
-    #progresso1{
-        position: absolute;
-        height: 3dvh;
-        background-color: rgb(72, 241, 72);
-    }
+#progresso1 {
+  height: 100%;
+  width: 0%;
+  background-color: #4caf50; /* verde */
+  border-radius: 10px;
+  transition: width 1s linear;
+}
 
-    #divProgresso2{
-        position: relative;
-        width: 47%;
-        height: 3dvh;
-        background-color: #221f36;;
-        margin: 0 auto;
-    }
+#progresso2 {
+  height: 100%;
+  width: 0%;
+  background-color: #2196f3; /* azul */
+  border-radius: 10px;
+  transition: width 1s linear;
+}
 
-    #progresso2{
-        position: absolute;
-        height: 3dvh;
-        background-color: rgb(72, 241, 72);
-    }
+
 
 
     #divBotoes{
@@ -157,7 +156,7 @@
 
     .botoesAcesso{
         width: 8rem;
-        height: 18dvh;
+        height: 19.4dvh;
         display: flex;
         justify-content: start;
         align-items: center;
@@ -169,13 +168,13 @@
 
     .divIcon{
         width: 1.9rem;
-        height: 1.9rem;
+        height: 2rem;
         display: flex;
         justify-content: end;
         align-items: center;
         border: 1px solid #221f36;
         border-radius: 50%;
-        margin-top: -0.7rem;
+        margin-top: -0.5rem;
         margin-bottom: 1rem;
         object-fit: contain;
         background-color: #221f36;
@@ -270,6 +269,19 @@
         }
     }
 
+    .btn-tempo{
+        border: none !important;
+    }
+
+    #inputHoraEntrada, #inputPausa, #inputRetorno, 
+    #inputHoraSaida
+    {
+        margin: -0.6rem;
+        width: 90%;
+        height: 1rem;
+        border: none;
+    }
+
 
     .divGrafico{
         width: 100%;
@@ -297,17 +309,27 @@
 
     }
 
-    #divCarregamento{
+    #divCarregamento {
         position: absolute;
         display: flex;
+        align-items: center;
+        justify-content: center;
         height: 2.2rem;
         background-color: #221f36;
+        color: #fff;
+        font-weight: bold;
+        padding: 0 10px;
+        transition: width 0.5s ease-in-out;
+        white-space: nowrap;
     }
+
 
 
     footer{
         height: 5rem;
     }
+
+
     /*Para telas com tamanho max ate 1028*/
     @media (max-width: 1028px) {
         #divDados{
@@ -317,7 +339,7 @@
 
     }
 
-/*Para telas com tamanho max ate 564*/
+    /*Para telas com tamanho max ate 564*/
      @media (max-width: 564px) {
         #divDados{
             width: 106vw;
@@ -326,7 +348,7 @@
 
     }
 
-/*Para telas com tamanho max ate 480*/
+    /*Para telas com tamanho max ate 480*/
     @media (max-width: 480px) {
       #imgLogo{
       width: 10.5rem;
@@ -334,7 +356,7 @@
     }
     }
 
-/*Para telas com tamanho max ate 314*/
+    /*Para telas com tamanho max ate 314*/
      @media (max-width: 314px) {
       #divDados {
       width: 158vw;
@@ -359,8 +381,16 @@
 
 </style>
 
+<script>
+    window.onload = function () {
+        console.log('Página carregada, script rodando...');
+        carregarTempos();
+    };
+</script>
+
 <main>
 
+    <!--Botão para voltar para o perfil-->
     <div class="topoVoltar">
             <a href="/admin/perfil">
                 <p><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
@@ -378,6 +408,10 @@
                 <p id="dataAtual"></p>
             </div>
 
+            <!--Cronômetro da página-->
+            <p>Tempo: <span id="cronometro">00:00:00</span></p>
+
+            <!--Carregamento automatico da barra de horas-->
             <div id="divProgressoPrincipal">
                 <div id="divProgresso1">
                     <div id="progresso1"></div>
@@ -388,9 +422,11 @@
                 </div>
             </div>
 
-            <div id="divBotoes">
 
-                <button id="butonEntrada">
+            <!--Div dos botoes das horas-->
+            <div id="divBotoes">
+        
+                <!--Hora atual de entrada-->
                     <div class="botoesAcesso">
                         <div class="divIcon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
@@ -399,17 +435,55 @@
                             </svg>
                         </div>
                         <p>Entrada</p>
-                        <h4>00:00</h4>
+                        
+                        <h4><span id="horaEntrada">--:--</span></h4>
+                        <input id="inputHoraEntrada" />
+
+
+                       <button class="btn-tempo" data-tipo="entrada" id="btnEntrada"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-dotted" viewBox="0 0 16 16">
+                            <path d="M8 0q-.264 0-.523.017l.064.998a7 7 0 0 1 .918 0l.064-.998A8 8 0 0 0 8 0M6.44.152q-.52.104-1.012.27l.321.948q.43-.147.884-.237L6.44.153zm4.132.271a8 8 0 0 0-1.011-.27l-.194.98q.453.09.884.237zm1.873.925a8 8 0 0 0-.906-.524l-.443.896q.413.205.793.459zM4.46.824q-.471.233-.905.524l.556.83a7 7 0 0 1 .793-.458zM2.725 1.985q-.394.346-.74.74l.752.66q.303-.345.648-.648zm11.29.74a8 8 0 0 0-.74-.74l-.66.752q.346.303.648.648zm1.161 1.735a8 8 0 0 0-.524-.905l-.83.556q.254.38.458.793l.896-.443zM1.348 3.555q-.292.433-.524.906l.896.443q.205-.413.459-.793zM.423 5.428a8 8 0 0 0-.27 1.011l.98.194q.09-.453.237-.884zM15.848 6.44a8 8 0 0 0-.27-1.012l-.948.321q.147.43.237.884zM.017 7.477a8 8 0 0 0 0 1.046l.998-.064a7 7 0 0 1 0-.918zM16 8a8 8 0 0 0-.017-.523l-.998.064a7 7 0 0 1 0 .918l.998.064A8 8 0 0 0 16 8M.152 9.56q.104.52.27 1.012l.948-.321a7 7 0 0 1-.237-.884l-.98.194zm15.425 1.012q.168-.493.27-1.011l-.98-.194q-.09.453-.237.884zM.824 11.54a8 8 0 0 0 .524.905l.83-.556a7 7 0 0 1-.458-.793zm13.828.905q.292-.434.524-.906l-.896-.443q-.205.413-.459.793zm-12.667.83q.346.394.74.74l.66-.752a7 7 0 0 1-.648-.648zm11.29.74q.394-.346.74-.74l-.752-.66q-.302.346-.648.648zm-1.735 1.161q.471-.233.905-.524l-.556-.83a7 7 0 0 1-.793.458zm-7.985-.524q.434.292.906.524l.443-.896a7 7 0 0 1-.793-.459zm1.873.925q.493.168 1.011.27l.194-.98a7 7 0 0 1-.884-.237zm4.132.271a8 8 0 0 0 1.012-.27l-.321-.948a7 7 0 0 1-.884.237l.194.98zm-2.083.135a8 8 0 0 0 1.046 0l-.064-.998a7 7 0 0 1-.918 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                            </svg>
+                        </button>
                     </div>
-                </button>
-                <button id="butonIntervalo">
+                
+            
+                    <!--Hora atual de pausa-->
                     <div class="botoesAcesso">
-                        <div class="divIcon"><img src="../img/hora-do-intervalo.png" alt="" id="logoImg"></div>
+                        <div class="divIcon">
+                            <img src="../img/hora-do-intervalo.png" alt="" id="logoImg" />
+                        </div>
                         <p>Intervalo</p>
-                        <p><b>00:00 - 00:00</b></p>
+                        
+                        <h4><span id="horaPausa">--:--</span></h4>
+                        <input id="inputPausa" />
+    
+                        <button class="btn-tempo" data-tipo="pausa" id="btnPausa"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-dotted" viewBox="0 0 16 16">
+                            <path d="M8 0q-.264 0-.523.017l.064.998a7 7 0 0 1 .918 0l.064-.998A8 8 0 0 0 8 0M6.44.152q-.52.104-1.012.27l.321.948q.43-.147.884-.237L6.44.153zm4.132.271a8 8 0 0 0-1.011-.27l-.194.98q.453.09.884.237zm1.873.925a8 8 0 0 0-.906-.524l-.443.896q.413.205.793.459zM4.46.824q-.471.233-.905.524l.556.83a7 7 0 0 1 .793-.458zM2.725 1.985q-.394.346-.74.74l.752.66q.303-.345.648-.648zm11.29.74a8 8 0 0 0-.74-.74l-.66.752q.346.303.648.648zm1.161 1.735a8 8 0 0 0-.524-.905l-.83.556q.254.38.458.793l.896-.443zM1.348 3.555q-.292.433-.524.906l.896.443q.205-.413.459-.793zM.423 5.428a8 8 0 0 0-.27 1.011l.98.194q.09-.453.237-.884zM15.848 6.44a8 8 0 0 0-.27-1.012l-.948.321q.147.43.237.884zM.017 7.477a8 8 0 0 0 0 1.046l.998-.064a7 7 0 0 1 0-.918zM16 8a8 8 0 0 0-.017-.523l-.998.064a7 7 0 0 1 0 .918l.998.064A8 8 0 0 0 16 8M.152 9.56q.104.52.27 1.012l.948-.321a7 7 0 0 1-.237-.884l-.98.194zm15.425 1.012q.168-.493.27-1.011l-.98-.194q-.09.453-.237.884zM.824 11.54a8 8 0 0 0 .524.905l.83-.556a7 7 0 0 1-.458-.793zm13.828.905q.292-.434.524-.906l-.896-.443q-.205.413-.459.793zm-12.667.83q.346.394.74.74l.66-.752a7 7 0 0 1-.648-.648zm11.29.74q.394-.346.74-.74l-.752-.66q-.302.346-.648.648zm-1.735 1.161q.471-.233.905-.524l-.556-.83a7 7 0 0 1-.793.458zm-7.985-.524q.434.292.906.524l.443-.896a7 7 0 0 1-.793-.459zm1.873.925q.493.168 1.011.27l.194-.98a7 7 0 0 1-.884-.237zm4.132.271a8 8 0 0 0 1.012-.27l-.321-.948a7 7 0 0 1-.884.237l.194.98zm-2.083.135a8 8 0 0 0 1.046 0l-.064-.998a7 7 0 0 1-.918 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                            </svg>
+                        </button>
                     </div>
-                </button>
-                <button id="butonSaida">
+
+
+                    <!--Hora atual de retorno-->
+                    <div class="botoesAcesso">
+                        <div class="divIcon">
+                            <img src="../img/hora-do-intervalo.png" alt="" id="logoImg" />
+                        </div>
+                        <p>Retorno</p>
+                        
+                        <h4><span id="horaRetorno">--:--</span></h4>
+                        <input id="inputRetorno" />
+
+                        
+                        
+                        <button class="btn-tempo" data-tipo="retorno" id="btnVolta"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-dotted" viewBox="0 0 16 16">
+                            <path d="M8 0q-.264 0-.523.017l.064.998a7 7 0 0 1 .918 0l.064-.998A8 8 0 0 0 8 0M6.44.152q-.52.104-1.012.27l.321.948q.43-.147.884-.237L6.44.153zm4.132.271a8 8 0 0 0-1.011-.27l-.194.98q.453.09.884.237zm1.873.925a8 8 0 0 0-.906-.524l-.443.896q.413.205.793.459zM4.46.824q-.471.233-.905.524l.556.83a7 7 0 0 1 .793-.458zM2.725 1.985q-.394.346-.74.74l.752.66q.303-.345.648-.648zm11.29.74a8 8 0 0 0-.74-.74l-.66.752q.346.303.648.648zm1.161 1.735a8 8 0 0 0-.524-.905l-.83.556q.254.38.458.793l.896-.443zM1.348 3.555q-.292.433-.524.906l.896.443q.205-.413.459-.793zM.423 5.428a8 8 0 0 0-.27 1.011l.98.194q.09-.453.237-.884zM15.848 6.44a8 8 0 0 0-.27-1.012l-.948.321q.147.43.237.884zM.017 7.477a8 8 0 0 0 0 1.046l.998-.064a7 7 0 0 1 0-.918zM16 8a8 8 0 0 0-.017-.523l-.998.064a7 7 0 0 1 0 .918l.998.064A8 8 0 0 0 16 8M.152 9.56q.104.52.27 1.012l.948-.321a7 7 0 0 1-.237-.884l-.98.194zm15.425 1.012q.168-.493.27-1.011l-.98-.194q-.09.453-.237.884zM.824 11.54a8 8 0 0 0 .524.905l.83-.556a7 7 0 0 1-.458-.793zm13.828.905q.292-.434.524-.906l-.896-.443q-.205.413-.459.793zm-12.667.83q.346.394.74.74l.66-.752a7 7 0 0 1-.648-.648zm11.29.74q.394-.346.74-.74l-.752-.66q-.302.346-.648.648zm-1.735 1.161q.471-.233.905-.524l-.556-.83a7 7 0 0 1-.793.458zm-7.985-.524q.434.292.906.524l.443-.896a7 7 0 0 1-.793-.459zm1.873.925q.493.168 1.011.27l.194-.98a7 7 0 0 1-.884-.237zm4.132.271a8 8 0 0 0 1.012-.27l-.321-.948a7 7 0 0 1-.884.237l.194.98zm-2.083.135a8 8 0 0 0 1.046 0l-.064-.998a7 7 0 0 1-.918 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                            </svg>
+                        </button>
+                    </div>
+
+
+                    <!--Hora atual de saida-->
                     <div class="botoesAcesso">
                         <div class="divIcon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
@@ -418,10 +492,26 @@
                             </svg>
                         </div>
                         <p>Saída</p>
-                        <h4>00:00</h4>
+                        
+                        <h4><span id="horaSaida">--:--</span></h4>
+                        <input id="inputHoraSaida" />
+
+                        <button class="btn-tempo" data-tipo="saida" id="btnSaida"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-dotted" viewBox="0 0 16 16">
+                            <path d="M8 0q-.264 0-.523.017l.064.998a7 7 0 0 1 .918 0l.064-.998A8 8 0 0 0 8 0M6.44.152q-.52.104-1.012.27l.321.948q.43-.147.884-.237L6.44.153zm4.132.271a8 8 0 0 0-1.011-.27l-.194.98q.453.09.884.237zm1.873.925a8 8 0 0 0-.906-.524l-.443.896q.413.205.793.459zM4.46.824q-.471.233-.905.524l.556.83a7 7 0 0 1 .793-.458zM2.725 1.985q-.394.346-.74.74l.752.66q.303-.345.648-.648zm11.29.74a8 8 0 0 0-.74-.74l-.66.752q.346.303.648.648zm1.161 1.735a8 8 0 0 0-.524-.905l-.83.556q.254.38.458.793l.896-.443zM1.348 3.555q-.292.433-.524.906l.896.443q.205-.413.459-.793zM.423 5.428a8 8 0 0 0-.27 1.011l.98.194q.09-.453.237-.884zM15.848 6.44a8 8 0 0 0-.27-1.012l-.948.321q.147.43.237.884zM.017 7.477a8 8 0 0 0 0 1.046l.998-.064a7 7 0 0 1 0-.918zM16 8a8 8 0 0 0-.017-.523l-.998.064a7 7 0 0 1 0 .918l.998.064A8 8 0 0 0 16 8M.152 9.56q.104.52.27 1.012l.948-.321a7 7 0 0 1-.237-.884l-.98.194zm15.425 1.012q.168-.493.27-1.011l-.98-.194q-.09.453-.237.884zM.824 11.54a8 8 0 0 0 .524.905l.83-.556a7 7 0 0 1-.458-.793zm13.828.905q.292-.434.524-.906l-.896-.443q-.205.413-.459.793zm-12.667.83q.346.394.74.74l.66-.752a7 7 0 0 1-.648-.648zm11.29.74q.394-.346.74-.74l-.752-.66q-.302.346-.648.648zm-1.735 1.161q.471-.233.905-.524l-.556-.83a7 7 0 0 1-.793.458zm-7.985-.524q.434.292.906.524l.443-.896a7 7 0 0 1-.793-.459zm1.873.925q.493.168 1.011.27l.194-.98a7 7 0 0 1-.884-.237zm4.132.271a8 8 0 0 0 1.012-.27l-.321-.948a7 7 0 0 1-.884.237l.194.98zm-2.083.135a8 8 0 0 0 1.046 0l-.064-.998a7 7 0 0 1-.918 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                            </svg>
+                        </button>
+
                     </div>
-                </button>
+
+                <!--<button id="limparHorasBtn">Limpar Banco de Horas</button>
+                    <form id="formZerarHoras" method="POST">
+                        <button type="submit" class="btn btn-danger">Zerar todos os dados de horas</button>
+                    </form>
+                -->
+
             </div>
+
+            
         </div>
         
         <!--Div com os dados-->
@@ -429,26 +519,27 @@
             <h2>Totalização</h2>
             <div class="divHoras1">
                 <p><a href="" style="text-decoration: none; color:#000000">Horas trabalhadas</a></p>
-                <p id="hora1">00:00</p>
+                <p id="hora1"><span id="totalTrabalhado">00:00</span></p>
             </div>
             <div class="divHoras2">
                 <p><a href="" style="text-decoration: none; color:#000000">Horas Extras</a></p>
-                <p id="hora2">00:00</p>
+                <p id="hora2"><span id="horaExtra">00:00</span></p>
             </div>
             <div class="divHoras3">
                 <p><a href="" style="text-decoration: none; color:#000000">Horas Faltas</a></p>
-                <p id="hora3">00:00</p>
+                <p id="hora3"><span id="horaFalta">00:00</span></p>
             </div>
             <div class="divHoras4">
                 <p><a href="" style="text-decoration: none; color:#000000">Banco de Horas</a></p>
-                <p id="hora4">00:00</p>
+                <p id="hora4"><span id="totalTrabalhado">00:00</span></p>
             </div> 
         </div>
 
     </div>
-
 </main>
 
+
+<!--Rodapé da página-->
 <footer class="container">
         <div class="divGrafico">
             <p>Banco de Horas</p>
@@ -458,23 +549,345 @@
         </div>
 </footer>
 
+
 <!--Script para ver a data -->
 <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const dataElemento = document.getElementById('dataAtual');
+    document.addEventListener("DOMContentLoaded", function() {
+        const dataElemento = document.getElementById('dataAtual');
 
-            if (dataElemento) { // Verifica se o elemento existe no DOM
-                const dataAtual = new Date();
-                const dataFormatada = dataAtual.toLocaleDateString('pt-BR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric'
-                });
+        if (dataElemento) { // Verifica se o elemento existe no DOM
+            const dataAtual = new Date();
+            const dataFormatada = dataAtual.toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
 
-                dataElemento.innerText = dataFormatada;
-            } else {
-                console.error("Elemento #dataAtual não encontrado.");
-            }
+            dataElemento.innerText = dataFormatada;
+        } else {
+            console.error("Elemento #dataAtual não encontrado.");
+        }
+    });
+
+    function preencherHora(tipo) {
+    const dataAtual = new Date();
+    const horaFormatada = dataAtual.toLocaleTimeString('pt-BR', {
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+
+    switch (tipo) {
+        case 'entrada':
+            document.getElementById('inputHoraEntrada').value = horaFormatada;
+            break;
+        case 'pausa':
+            document.getElementById('inputPausa').value = horaFormatada;
+            break;
+        case 'retorno':
+            document.getElementById('inputRetorno').value = horaFormatada;
+            break;
+        case 'saida':
+            document.getElementById('inputHoraSaida').value = horaFormatada;
+            break;
+    }
+}
+
+
+
+</script>
+
+<!--Script para dados das horas-->
+<script>
+document.querySelectorAll('.btn-tempo').forEach(botao => {
+    //Função para salvar as horas de cada botão
+    botao.addEventListener('click', async () => {
+        const tipo = botao.getAttribute('data-tipo');
+
+        const dataAtual = new Date();
+        const horaFormatada = dataAtual.toLocaleTimeString('pt-BR', {
+            hour: '2-digit',
+            minute: '2-digit'
         });
-    </script>
-   
+
+        // Preencher o campo correspondente
+        const inputId = {
+            entrada: 'inputHoraEntrada',
+            pausa: 'inputPausa',
+            retorno: 'inputRetorno',
+            saida: 'inputHoraSaida'
+        }[tipo];
+
+        if (inputId) {
+            document.getElementById(inputId).value = horaFormatada;
+        }
+
+        // Enviar pro servidor
+        try {
+            const resposta = await fetch('/admin/salvar-tempo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ tipo })
+            });
+
+            if (!resposta.ok) throw new Error('Erro ao salvar tempo');
+
+            const dados = await resposta.json();
+            console.log('Tempo salvo:', dados);
+
+            location.reload();
+        } catch (error) {
+            console.error('Erro ao salvar hora:', error);
+        }
+
+
+    });
+});
+
+
+async function carregarTempos() {
+  try {
+    const res = await fetch('/admin/carregar-tempos');
+    const data = await res.json();
+
+    const mapa = {
+      horaEntrada: 'horaEntrada',
+      horaPausa: 'horaPausa',
+      horaRetorno: 'horaRetorno',
+      horaSaida: 'horaSaida'
+    };
+
+    // Preenche os horários
+    Object.entries(mapa).forEach(([campo, id]) => {
+      const el = document.getElementById(id);
+      if (el && data[campo]) {
+        const hora = new Date(data[campo]).toLocaleTimeString('pt-BR', {
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        el.textContent = hora;
+      }
+    });
+
+    // Função para formatar decimal para HH:mm
+    function formatarDecimalParaHorasMinutos(decimal) {
+      if (typeof decimal !== 'number' || isNaN(decimal)) return '00:00';
+
+      const horas = Math.floor(decimal);
+      const minutos = Math.round((decimal - horas) * 60);
+
+      const horasStr = horas.toString().padStart(2, '0');
+      const minutosStr = minutos.toString().padStart(2, '0');
+
+      return `${horasStr}:${minutosStr}`;
+    }
+
+    // Preenche os totais, extras e faltas
+    if (data.total !== undefined) {
+      const total = data.total || 0;
+      const extra = data.horaExtra || 0;
+      const falta = data.horaFalta || 0;
+
+      preencherBarraHorasExtras(extra);
+
+      document.getElementById('totalTrabalhado').textContent = formatarDecimalParaHorasMinutos(total);
+      document.getElementById('horaExtra').textContent = formatarDecimalParaHorasMinutos(extra);
+      document.getElementById('horaFalta').textContent = formatarDecimalParaHorasMinutos(falta);
+    }
+
+    // Função para iniciar o cronômetro
+    function iniciarCronometro(desde) {
+      const tempoInicial = new Date(desde);
+      const elemento = document.getElementById('cronometro');
+
+      if (!elemento) return;
+
+      setInterval(() => {
+        const agora = new Date();
+        const diffMs = agora - tempoInicial;
+
+        const diffSegundos = Math.floor(diffMs / 1000);
+        const h = String(Math.floor(diffSegundos / 3600)).padStart(2, '0');
+        const m = String(Math.floor((diffSegundos % 3600) / 60)).padStart(2, '0');
+        const s = String(diffSegundos % 60).padStart(2, '0');
+
+        elemento.textContent = `${h}:${m}:${s}`;
+      }, 1000);
+    }
+
+    
+    // Inicia o cronômetro com base na hora mais recente registrada
+    if (data.horaEntrada && !data.horaSaida) {
+    if (data.horaRetorno && !data.horaSaida) {
+        iniciarCronometro(data.horaRetorno); // Após retorno, contar tempo de trabalho
+    } else if (data.horaEntrada && !data.horaPausa) {
+        iniciarCronometro(data.horaEntrada); // Início do expediente
+    }
+    }
+
+
+  } catch (err) {
+    console.error('Erro ao carregar horas:', err);
+  }
+}
+
+// Roda quando a página estiver pronta
+document.addEventListener('DOMContentLoaded', () => {
+  carregarTempos();
+});
+
+function preencherBarraHorasExtras(horasExtras) {
+  const maxHorasExtras = 8; // valor máximo da barra
+  const percentual = Math.min((horasExtras / maxHorasExtras) * 100, 100);
+
+  const barra = document.getElementById('divCarregamento');
+  barra.style.width = `${percentual}%`;
+  barra.textContent = `${horasExtras.toFixed(2)}h`;
+}
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const spansBase = {
+        entrada: document.getElementById("horaEntrada"),
+        pausa: document.getElementById("horaPausa"),
+        volta: document.getElementById("horaRetorno"),
+        saida: document.getElementById("horaSaida")
+    };
+
+
+    let currentInterval = null;
+
+    function parseTimeToDate(horaString) {
+        const [h, m, s] = horaString.split(":").map(Number);
+        const data = new Date();
+        data.setHours(h, m, s, 0);
+        return data;
+    }
+
+    function iniciarCronometro(tipo) {
+        if (currentInterval) clearInterval(currentInterval);
+
+        const baseHora = spansBase[tipo].textContent.trim();
+        const baseDate = parseTimeToDate(baseHora);
+
+        currentInterval = setInterval(() => {
+            const agora = new Date();
+            const diff = agora - baseDate;
+
+            if (diff < 0) return; // ainda não chegou na hora base
+
+            const h = String(Math.floor(diff / 3600000)).padStart(2, '0');
+            const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+            const s = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+
+            spansCrono[tipo].textContent = `${h}:${m}:${s}`;
+        }, 1000);
+
+        localStorage.setItem("cronometroAtivo", tipo);
+    }
+
+    // Botões
+    document.getElementById("btnEntrada").addEventListener("click", () => iniciarCronometro("entrada"));
+    document.getElementById("btnPausa").addEventListener("click", () => iniciarCronometro("pausa"));
+    document.getElementById("btnVolta").addEventListener("click", () => iniciarCronometro("volta"));
+    document.getElementById("btnSaida").addEventListener("click", () => iniciarCronometro("saida"));
+
+    // Recuperar cronômetro ativo ao recarregar
+    const ativo = localStorage.getItem("cronometroAtivo");
+    if (ativo) iniciarCronometro(ativo);
+});
+
+
+function preencherBarraTempoReal(idBarra, horaInicio, horaFim) {
+  const barra = document.getElementById(idBarra);
+  if (!barra || !horaInicio || !horaFim) return;
+
+  const inicioMS = new Date(horaInicio).getTime();
+  const fimMS = new Date(horaFim).getTime();
+
+  const totalMS = fimMS - inicioMS;
+
+  if (totalMS <= 0) return;
+
+  const intervalo = setInterval(() => {
+    const agoraMS = new Date().getTime();
+    const percorrido = agoraMS - inicioMS;
+    let porcentagem = (percorrido / totalMS) * 100;
+
+    if (porcentagem >= 100) {
+      porcentagem = 100;
+      clearInterval(intervalo); // para quando atingir 100%
+    }
+
+    barra.style.backgroundColor = idBarra === 'progresso1' ? '#4caf50' : '#2196f3';
+    barra.style.width = `${porcentagem}%`;
+  }, 1000); // atualiza a cada 1 segundo
+}
+
+
+// Simulando o preenchimento da barra com 100% ao clicar
+document.addEventListener('DOMContentLoaded', () => {
+  if (data.horaEntrada && data.horaPausa) {
+    preencherBarraTempoReal('progresso1', data.horaEntrada, data.horaPausa);
+  }
+
+  if (data.horaRetorno && data.horaSaida) {
+    preencherBarraTempoReal('progresso2', data.horaRetorno, data.horaSaida);
+  }
+});
+
+
+
+</script>
+
+<!--Script para o cronômetro-->
+<script>
+
+</script>
+
+
+<!-- Botão para limpar horas -->
+<script>
+  document.getElementById('limparHorasBtn').addEventListener('click', () => {
+  if (confirm('Deseja apenas limpar os horários visíveis da tela?')) {
+    // Apenas os campos do dia
+    const camposParaLimpar = ['horaEntrada', 'horaPausa', 'horaRetorno', 'horaSaida'];
+    
+    camposParaLimpar.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '--:--'; // Ou vazio: ''
+    });
+  }
+});
+
+
+
+
+  document.getElementById('formZerarHoras').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const confirmar = confirm("Tem certeza que deseja ZERAR TODOS os dados de horas?");
+    if (!confirmar) return;
+
+    try {
+      const response = await fetch('/admin/zerarTudoHoras', {
+        method: 'DELETE'
+      });
+
+      const resultado = await response.json();
+      alert(resultado.mensagem);
+
+      if (resultado.sucesso) {
+        location.reload(); // recarrega a página após a exclusão
+      }
+    } catch (err) {
+      console.error('Erro ao tentar zerar dados:', err);
+      alert("Erro ao zerar os dados.");
+    }
+  });
+
+
+</script>
+

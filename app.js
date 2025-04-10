@@ -70,6 +70,8 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(express.json());
+
 // Configuração do Handlebars
 const hbs = engine({
     defaultLayout: 'main',
@@ -77,12 +79,24 @@ const hbs = engine({
     helpers: {
         eq: (a, b) => a === b,
         json: (context) => JSON.stringify(context),
+
+        // 👇 Adicionando helper para formatar hora
+        formatHora: function (date) {
+            if (!date) return '';
+            const d = new Date(date);
+            return d.toLocaleTimeString('pt-BR', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            });
+        }
     },
     runtimeOptions: {
         allowProtoMethodsByDefault: true,
         allowProtoPropertiesByDefault: true,
     },
 });
+
 
 app.engine('handlebars', hbs);
 app.set('view engine', 'handlebars');

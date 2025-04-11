@@ -10,12 +10,14 @@ const moment = require("moment-timezone");// pega hora e data atual
 require('../modules/Equipamentos'); // Carrega o módulo Equipamentos
 require('../modules/Materiais'); // Carrega o módulo Materiais
 require('../modules/OS'); // Carrega o módulo de OS
+require('../modules/Horas'); //Carrega o módulo de horas
 
 
 const Material = mongoose.model('Material');
 const Produto = mongoose.model('Produto');
 const OrdemServico = mongoose.model('OrdemServico');
 const Usuario = require('../modules/Usuario'); // ✅ Forma correta
+const Tempo = mongoose.model('Tempo');
 
 
 
@@ -610,8 +612,149 @@ router.get('/logout', (req, res) => {
 
 
 //Rota para ver banco de horas e hora extra
-router.get('/horas', (req, res) => {
+router.get('/horas', eAdmin, (req, res) => {
   res.render('admin/horas')
 })
+
+//Rota post para salvar as horas 
+router.post('/salvar-tempo', async (req, res) => {
+  try {
+    const { tipo } = req.body;
+    const usuarioId = req.user ? req.user._id : null;
+
+    console.log('Tipo recebido no backend:', tipo);
+
+    if (!usuarioId) {
+      return res.status(401).send('Erro: Usuário não autenticado!');
+    }
+
+    const agora = new Date();
+    let registro = await Tempo.findOne({
+      usuario: usuarioId,
+      createdAt: { $gte: new Date().setHours(0, 0, 0, 0) }
+    });
+
+    if (!registro) {
+      registro = new Tempo({ usuario: usuarioId });
+    }
+
+    switch (tipo) {
+      case 'entrada':
+        registro.horaEntrada = agora;
+        break;
+      case 'pausa':
+        registro.horaPausa = agora;
+        break;
+      case 'retorno':
+        registro.horaRetorno = agora;
+        break;
+      case 'saida':
+        registro.horaSaida = agora;
+        break;
+      default:
+        return res.status(400).send('Tipo inválido');
+    }
+
+    // Verifica se todas as horas foram preenchidas para calcular o total
+    if (registro.horaEntrada && registro.horaPausa && registro.horaRetorno && registro.horaSaida) {
+      const antesDaPausa = registro.horaPausa - registro.horaEntrada;
+      const depoisDaPausa = registro.horaSaida - registro.horaRetorno;
+      const totalTrabalhadoMs = antesDaPausa + depoisDaPausa;
+
+      const totalHoras = totalTrabalhadoMs / (1000 * 60 * 60); // converte para horas
+      registro.total = parseFloat(totalHoras.toFixed(2));
+
+      if (totalHoras > 8) {
+        registro.horaExtra = parseFloat((totalHoras - 8).toFixed(2));
+        registro.horaFalta = 0;
+      } else if (totalHoras < 8) {
+        registro.horaFalta = parseFloat((8 - totalHoras).toFixed(2));
+        registro.horaExtra = 0;
+      } else {
+        registro.horaExtra = 0;
+        registro.horaFalta = 0;
+      }
+    }
+
+    await registro.save();
+
+    const horaFormatada = agora.toLocaleTimeString('pt-BR', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    res.json({
+      [`hora${tipo.charAt(0).toUpperCase() + tipo.slice(1)}Formatada`]: horaFormatada
+    });
+
+  } catch (err) {
+    console.error('Erro ao salvar tempo:', err);
+    res.status(500).send('Erro interno ao salvar o tempo');
+  }
+});
+
+//Rota para receber as horas salvas via json
+router.get('/carregar-tempos', async (req, res) => {
+  try {
+    const usuarioId = req.user ? req.user._id : null;
+    if (!usuarioId) return res.status(401).json({ erro: 'Não autenticado' });
+
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0);
+
+    // Busca o registro do dia atual
+    const registroHoje = await Tempo.findOne({
+      usuario: usuarioId,
+      createdAt: { $gte: hoje }
+    });
+
+    // Se tiver registro de hoje, usamos ele
+    if (registroHoje) {
+      return res.json({
+        horaEntrada: registroHoje.horaEntrada,
+        horaPausa: registroHoje.horaPausa,
+        horaRetorno: registroHoje.horaRetorno,
+        horaSaida: registroHoje.horaSaida,
+        total: registroHoje.total,
+        horaExtra: registroHoje.horaExtra,
+        horaFalta: registroHoje.horaFalta
+      });
+    }
+
+    // Caso contrário, buscamos o último registro para mostrar SOMENTE os totais
+    const ultimoRegistro = await Tempo.findOne({
+      usuario: usuarioId
+    }).sort({ createdAt: -1 });
+
+    res.json({
+      total: ultimoRegistro?.total || 0,
+      horaExtra: ultimoRegistro?.horaExtra || 0,
+      horaFalta: ultimoRegistro?.horaFalta || 0
+      // Não retorna horários (entrada, pausa...) pois não são do dia atual
+    });
+
+  } catch (error) {
+    console.error('Erro ao carregar tempos:', error);
+    res.status(500).json({ erro: 'Erro ao carregar tempos' });
+  }
+});
+
+
+
+// Rota para limpar todos os registros de horas
+
+
+//rota para limpar o banco 
+router.delete("/zerarTudoHoras", async (req, res) => {
+  try {
+    await Tempo.deleteMany();  // remove todos os documentos da coleção Tempo
+    res.json({ sucesso: true, mensagem: "Todos os dados da tabela de tempo foram zerados." });
+  } catch (error) {
+    console.error("Erro ao zerar a tabela tempo:", error);
+    res.status(500).json({ sucesso: false, mensagem: "Erro ao zerar os dados." });
+  }
+});
+
+
 
 module.exports = router;

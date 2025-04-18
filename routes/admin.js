@@ -119,6 +119,7 @@ router.get("/materiais/edit/:id", async (req, res) => {
   }
 });
 
+//Rota post para editar materiais
 router.post("/materiais/update/:id", eAdmin, async (req, res) => {
   try {
     const material = await Material.findOne({ _id: req.params.id, usuario: req.user._id });
@@ -238,6 +239,8 @@ router.get("/produtos/edit/:id", async (req, res) => {
   }
 });
 
+
+
 //Rota post de atualização
 router.post("/estoqueEquipamentos/update/:id", eAdmin, async (req, res) => {
   try {
@@ -285,7 +288,7 @@ router.get("/OrdemServico", eAdmin, (req, res) => {
 });
 
 
-
+//Rota para cadastrar os
 router.post("/ordemServico/cadastrar", eAdmin, async (req, res) => {
   try {
     const novaOS = new OrdemServico({
@@ -341,6 +344,7 @@ router.get("/ordemServico/edit/:id", async (req, res) => {
   }
 });
 
+//Rota post para editar os
 router.post("/ordemServico/update/:id", eAdmin, async (req, res) => {
   try {
     const ordemServico = await OrdemServico.findOne({ _id: req.params.id, usuario: req.user._id });
@@ -422,11 +426,11 @@ router.post('/dados/nova', (req, res) => {
   const bcrypt = require('bcryptjs');
 
   // Se houver erros, renderiza a página de registro com erros
-if (erros.length > 0) {
-  console.log(erros); // Exibe erros de validação para depuração
-  res.render("usuarios/registro", { erros: erros });
-} else {
-  // Verifica se já existe um usuário com o nome de usuário fornecido
+  if (erros.length > 0) {
+    console.log(erros); // Exibe erros de validação para depuração
+    res.render("usuarios/registro", { erros: erros });
+  } else {
+    // Verifica se já existe um usuário com o nome de usuário fornecido
   Usuario.findOne({ usuario: req.body.usuario }).then((usuario) => {
       if (usuario) {
           req.flash("error_msg", "Já existe uma conta com este nome de usuário no nosso sistema");
@@ -538,6 +542,7 @@ router.get('/acesso', (req, res) => {
 
 
 
+//Rota para acessar sistema 
 router.post('/acesso', async (req, res) => {
   try {
     const usuario = await Usuario.findOne({ usuario: req.body.usuario });  // Substituir pelo campo desejado
@@ -699,49 +704,43 @@ router.get('/carregar-tempos', async (req, res) => {
     const usuarioId = req.user ? req.user._id : null;
     if (!usuarioId) return res.status(401).json({ erro: 'Não autenticado' });
 
-    const hoje = new Date();
-    hoje.setHours(0, 0, 0, 0);
+    const agora = new Date();
+    const primeiroDiaMes = new Date(agora.getFullYear(), agora.getMonth(), 1);
+    const ultimoDiaMes = new Date(agora.getFullYear(), agora.getMonth() + 1, 0, 23, 59, 59);
 
-    // Busca o registro do dia atual
-    const registroHoje = await Tempo.findOne({
+    // Busca todos os registros do mês atual
+    const registrosMes = await Tempo.find({
       usuario: usuarioId,
-      createdAt: { $gte: hoje }
+      createdAt: {
+        $gte: primeiroDiaMes,
+        $lte: ultimoDiaMes
+      }
     });
 
-    // Se tiver registro de hoje, usamos ele
-    if (registroHoje) {
-      return res.json({
-        horaEntrada: registroHoje.horaEntrada,
-        horaPausa: registroHoje.horaPausa,
-        horaRetorno: registroHoje.horaRetorno,
-        horaSaida: registroHoje.horaSaida,
-        total: registroHoje.total,
-        horaExtra: registroHoje.horaExtra,
-        horaFalta: registroHoje.horaFalta
-      });
-    }
+    // Inicializa totais
+    let totalHoras = 0;
+    let totalHoraExtra = 0;
+    let totalHoraFalta = 0;
 
-    // Caso contrário, buscamos o último registro para mostrar SOMENTE os totais
-    const ultimoRegistro = await Tempo.findOne({
-      usuario: usuarioId
-    }).sort({ createdAt: -1 });
+    // Soma os valores
+    registrosMes.forEach(registro => {
+      totalHoras += registro.total || 0;
+      totalHoraExtra += registro.horaExtra || 0;
+      totalHoraFalta += registro.horaFalta || 0;
+    });
 
     res.json({
-      total: ultimoRegistro?.total || 0,
-      horaExtra: ultimoRegistro?.horaExtra || 0,
-      horaFalta: ultimoRegistro?.horaFalta || 0
-      // Não retorna horários (entrada, pausa...) pois não são do dia atual
+      total: totalHoras,
+      horaExtra: totalHoraExtra,
+      horaFalta: totalHoraFalta
     });
+
 
   } catch (error) {
     console.error('Erro ao carregar tempos:', error);
     res.status(500).json({ erro: 'Erro ao carregar tempos' });
   }
 });
-
-
-
-// Rota para limpar todos os registros de horas
 
 
 //rota para limpar o banco 

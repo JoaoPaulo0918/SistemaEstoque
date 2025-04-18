@@ -80,6 +80,7 @@
     #divTotal{
         margin-top: 8dvh;
         font-family: sans-serif;
+        
     }
 
     #logoImg{
@@ -95,6 +96,7 @@
         width: 100%;
         height: 10dvh;
         gap: 1rem;
+        
     }
 
     #divProgressoPrincipal{
@@ -105,32 +107,30 @@
         margin-top: 5rem;
     }
 
-#divProgresso1, #divProgresso2 {
-  width: 100%;
-  height: 20px;
-  background-color: #ddd;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 10px;
-}
+    #divProgresso1, #divProgresso2 {
+    width: 100%;
+    height: 20px;
+    background-color: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    }
 
-#progresso1 {
-  height: 100%;
-  width: 0%;
-  background-color: #4caf50; /* verde */
-  border-radius: 10px;
-  transition: width 1s linear;
-}
+    #progresso1 {
+    height: 100%;
+    width: 0%;
+    background-color: #4caf50; /* verde */
+    border-radius: 10px;
+    transition: width 1s linear;
+    }
 
-#progresso2 {
-  height: 100%;
-  width: 0%;
-  background-color: #2196f3; /* azul */
-  border-radius: 10px;
-  transition: width 1s linear;
-}
-
-
+    #progresso2 {
+    height: 100%;
+    width: 0%;
+    background-color: #2196f3; /* azul */
+    border-radius: 10px;
+    transition: width 1s linear;
+    }
 
 
     #divBotoes{
@@ -190,7 +190,7 @@
     }
 
     .divHoras1, .divHoras2, .divHoras3,
-    .divHoras4{
+    .divHoras4, .divHoras5{
         display: flex;
         align-items: center;
         width: 100%;
@@ -269,8 +269,28 @@
         }
     }
 
+    #somaTotal{
+        font-size: 1.3rem;
+            position: absolute;
+            left: 71.2%;
+            font-weight: 600;
+            color: #363536;
+    }
+
+    #valorSalario{
+        border: 1px solid  #b9b9b9;
+        border-radius: 13px;
+        height: 2.3rem;
+        padding: 0.5rem;
+    }
+
     .btn-tempo{
         border: none !important;
+    }
+
+    .btn-success{
+        display: flex;
+        margin-left: 1.5rem;
     }
 
     #inputHoraEntrada, #inputPausa, #inputRetorno, 
@@ -323,7 +343,29 @@
         white-space: nowrap;
     }
 
+    #formZerarHoras{
+        width: 100%;
+        height: 2rem;
+        margin-top: 6rem;
+        position: relative;
+        display: flex !important;
+        flex-direction: column;
 
+        & > .btn-danger{
+            position: absolute;
+            display: flex;
+            left: 48%;
+        }
+
+        & > p{
+            position: absolute;
+            display: flex;
+            left: 46%;
+            margin-top: 2.5rem;
+            font-family: sans-serif;
+            font-weight: 700;
+        }
+    }
 
     footer{
         height: 5rem;
@@ -340,21 +382,259 @@
     }
 
     /*Para telas com tamanho max ate 564*/
-     @media (max-width: 564px) {
+     @media (max-width: 410px ) {
         #divDados{
             width: 106vw;
             font-size: 1.3rem;
         }
 
+        #divTotal {
+        display: flex;
+        flex-direction: column;
+        margin-top: 8dvh;
+        font-family: sans-serif;
+        width: 150vw;
+        
+       
+    }
+
+    #extratoData{
+        gap: 1rem;
+        display: flex;
+    }
+
+    #formZerarHoras{
+        width: 145vw;
+        height: 2rem;
+        margin-top: 6rem;
+        position: relative;
+        display: flex !important;
+        flex-direction: column;
+        
+
+        & > .btn-danger{
+            position: absolute;
+            display: flex;
+            left: 46%;
+        }
+
+        & > p{
+            position: absolute;
+            display: flex;
+            left: 42%;
+            margin-top: 2.5rem;
+            font-family: sans-serif;
+            font-weight: 700;
+        }
+    }
+
+
+    #cronometro{
+        font-family: sans-serif;
+        font-weight: 400;
+        font-size: 1rem;
+        margin-top: 1rem;
+    }
+
+    #divBotoes{
+        width: 100%;
+        height: 10vh;
+        gap: 1rem;
+    }
+    .botoesAcesso {
+        width: 7.6rem;
+        height: 14.4dvh;
+    }
+    #divProgressoPrincipal {
+        display: flex;
+        justify-content: space-evenly;
+        width: 97%;
+        height: 5dvh;
+        margin-top: 5rem;
+    }
+
+    .divGrafico{
+        width: 100%;
+        height: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 5rem;
+        position: relative;
+        left: 35%;
+
+        & > p {
+            position: absolute;
+            display: flex;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        & > #divTotal{
+            width: 80%;
+            height: 2.2rem;
+            border: 1px solid #b9b9b9;
+            display: flex;
+            position: relative;
+        }
+
+    }
+
     }
 
     /*Para telas com tamanho max ate 480*/
-    @media (max-width: 480px) {
+    @media (max-width: 352px) {
       #imgLogo{
       width: 10.5rem;
       height: 5.5rem;
     }
+
+    #divTotal {
+        margin-top: 8dvh;
+        font-family: sans-serif;
+        width: 168vw;
     }
+
+    #cronometro{
+        font-family: sans-serif;
+        font-weight: 400;
+        font-size: 1rem;
+    }
+
+
+    .divGrafico{
+        left: 49%;
+    }
+
+
+    #formZerarHoras{
+        width: 270%;
+        height: 2rem;
+        margin-top: 6rem;
+        position: relative;
+        display: flex !important;
+        flex-direction: column;
+
+        & > .btn-danger{
+            position: absolute;
+            display: flex;
+            left: 90%;
+        }
+
+        & > p{
+            position: absolute;
+            display: flex !important;
+            left: 30.5%;
+            margin-top: 2.5rem;
+            font-family: sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+    }
+
+
+/*Para telas com tamanho max ate 330*/
+   @media (max-width: 330px ) {
+        #divDados{
+            width: 106vw;
+            font-size: 1.3rem;
+        }
+
+        #divTotal {
+        display: flex;
+        flex-direction: column;
+        margin-top: 8dvh;
+        font-family: sans-serif;
+        width: 174vw;
+        
+        
+       
+    }
+
+    #extratoData{
+        gap: 1rem;
+        display: flex;
+    }
+
+    #formZerarHoras{
+        width: 155vw;
+        height: 2rem;
+        margin-top: 6rem;
+        position: relative;
+        display: flex !important;
+        flex-direction: column;
+        
+
+        & > .btn-danger{
+            position: absolute;
+            display: flex;
+            left: 49%;
+        }
+
+        & > p{
+            position: absolute;
+            display: flex;
+            left: 43%;
+            margin-top: 2.5rem;
+            font-family: sans-serif;
+            font-weight: 700;
+        }
+    }
+
+
+    #cronometro{
+        font-family: sans-serif;
+        font-weight: 400;
+        font-size: 1rem;
+        margin-top: 1rem;
+    }
+
+    #divBotoes{
+        width: 100%;
+        height: 10vh;
+        gap: 1rem;
+    }
+    .botoesAcesso {
+        width: 7.6rem;
+        height: 14.4dvh;
+    }
+    #divProgressoPrincipal {
+        display: flex;
+        justify-content: space-evenly;
+        width: 97%;
+        height: 5dvh;
+        margin-top: 5rem;
+    }
+
+    .divGrafico{
+        width: 100%;
+        height: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 5rem;
+        position: relative;
+        left: 50%;
+
+        & > p {
+            position: absolute;
+            display: flex;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        & > #divTotal{
+            width: 80%;
+            height: 2.2rem;
+            border: 1px solid #b9b9b9;
+            display: flex;
+            position: relative;
+        }
+
+    }
+
+    }
+
 
     /*Para telas com tamanho max ate 314*/
      @media (max-width: 314px) {
@@ -375,6 +655,74 @@
       width: 10rem;
       height: 5rem;
     }
+
+    #divTotal {
+        margin-top: 8dvh;
+        font-family: sans-serif;
+        width: 216vw;
+    }
+
+    #extratoData{
+        gap: 1rem;
+        
+    }
+
+    #cronometro{
+        font-family: sans-serif;
+        font-weight: 400;
+        font-size: 1rem;
+    }
+
+    .divGrafico{
+        width: 100%;
+        height: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 5rem;
+        position: relative;
+        left: 77%;
+
+        & > p {
+            position: absolute;
+            display: flex;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        & > #divTotal{
+            width: 80%;
+            height: 2.2rem;
+            border: 1px solid #b9b9b9;
+            display: flex;
+            position: relative;
+        }
+
+    }
+
+    #formZerarHoras{
+        width: 270%;
+        height: 2rem;
+        margin-top: 6rem;
+        position: relative;
+        display: flex !important;
+        flex-direction: column;
+
+        & > .btn-danger{
+            position: absolute;
+            display: flex;
+            left: 47%;
+        }
+
+        & > p{
+            position: absolute;
+            display: flex;
+            left: 42%;
+            margin-top: 2.5rem;
+            font-family: sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
 
     }
 
@@ -502,24 +850,30 @@
                         </button>
 
                     </div>
-
-                <!--<button id="limparHorasBtn">Limpar Banco de Horas</button>
-                    <form id="formZerarHoras" method="POST">
-                        <button type="submit" class="btn btn-danger">Zerar todos os dados de horas</button>
-                    </form>
-                -->
+                
 
             </div>
 
             
         </div>
-        
+
+        <!--<button id="limparHorasBtn">Limpar Banco de Horas</button>-->
+        <div class="container-fluid" id="butonNone">
+            <form id="formZerarHoras" method="POST">
+                <button type="submit" class="btn btn-danger">
+                    <img src="../img/x-circle-fill.svg" alt="">
+                </button>
+                <p>Zerar Horas</p>
+            </form>
+        </div>
+
+
         <!--Div com os dados-->
         <div id="divValores">
             <h2>Totalização</h2>
             <div class="divHoras1">
                 <p><a href="" style="text-decoration: none; color:#000000">Horas trabalhadas</a></p>
-                <p id="hora1"><span id="totalTrabalhado">00:00</span></p>
+                <p id="hora1"><span id="totalHoarasTrabalhadas">00:00</span></p>
             </div>
             <div class="divHoras2">
                 <p><a href="" style="text-decoration: none; color:#000000">Horas Extras</a></p>
@@ -532,6 +886,11 @@
             <div class="divHoras4">
                 <p><a href="" style="text-decoration: none; color:#000000">Banco de Horas</a></p>
                 <p id="hora4"><span id="totalTrabalhado">00:00</span></p>
+            </div> 
+            <div class="divHoras5">
+                <input type="number" id="valorSalario" placeholder="Digite seu salário">
+                <button onclick="somando(horasExtrasGlobais)" class="btn btn-success">Somar</button>
+                <p id="somaTotal"></p>
             </div> 
         </div>
 
@@ -554,6 +913,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const dataElemento = document.getElementById('dataAtual');
+        const butonZerarHoras = document.getElementById('butonNone')
 
         if (dataElemento) { // Verifica se o elemento existe no DOM
             const dataAtual = new Date();
@@ -564,9 +924,20 @@
             });
 
             dataElemento.innerText = dataFormatada;
+
+           const dia = dataAtual.getDate(); // Pega o número do dia
+
+        if (dia === 30 || dia === 31) {
+            alert('Data final: botão será exibido!');
+            butonZerarHoras.style.display = 'block'; // ou 'inline-block'
         } else {
-            console.error("Elemento #dataAtual não encontrado.");
+            console.log('Dia comum: botão será escondido. ' + dia);
+            butonZerarHoras.style.display = 'none';
         }
+
+    } else {
+        console.error("Elemento #dataAtual não encontrado.");
+    }
     });
 
     function preencherHora(tipo) {
@@ -645,11 +1016,16 @@ document.querySelectorAll('.btn-tempo').forEach(botao => {
     });
 });
 
+// Declare fora da função:
+let horasExtrasGlobais = 0;
 
 async function carregarTempos() {
   try {
     const res = await fetch('/admin/carregar-tempos');
     const data = await res.json();
+
+    const horasExtras = parseFloat(data.horaExtra);
+    horasExtrasGlobais = horasExtras; // salva para usar no clique
 
     const mapa = {
       horaEntrada: 'horaEntrada',
@@ -691,10 +1067,13 @@ async function carregarTempos() {
 
       preencherBarraHorasExtras(extra);
 
+      
+      document.getElementById('totalHoarasTrabalhadas').textContent = formatarDecimalParaHorasMinutos(total);
       document.getElementById('totalTrabalhado').textContent = formatarDecimalParaHorasMinutos(total);
       document.getElementById('horaExtra').textContent = formatarDecimalParaHorasMinutos(extra);
       document.getElementById('horaFalta').textContent = formatarDecimalParaHorasMinutos(falta);
     }
+
 
     // Função para iniciar o cronômetro
     function iniciarCronometro(desde) {
@@ -731,6 +1110,44 @@ async function carregarTempos() {
     console.error('Erro ao carregar horas:', err);
   }
 }
+
+
+ //Função para calcular hora extra      
+ function somando(horasExtras) {
+    // Mostra no console o valor de horas extras recebido (útil para depuração)
+    console.log("Horas extras recebidas:", horasExtras);
+
+    // Seleciona o elemento onde será exibido o resultado final
+    const valorSomado = document.getElementById('somaTotal');
+
+    // Pega o valor do input de salário, convertendo para número (float)
+    const input = parseFloat(document.getElementById('valorSalario').value);
+
+    if (isNaN(horasExtras) || isNaN(input)) {
+        alert("Valores inválidos. Verifique os dados inseridos.");
+        return;
+    }
+
+    /*
+      Calcula o valor total com horas extras:
+      - input / 220: valor de 1 hora de trabalho (considerando 220 horas mensais)
+      - ((input / 220) * 1.5 * horasExtras): valor das horas extras (com 50% de adicional)
+    */
+    const somaValores = (input / 220) + ((input / 220) * 1.5 * horasExtras);
+
+    // Mostra o valor total com 2 casas decimais em um alerta
+    //alert('O valor é: ' + somaValores.toFixed(2));
+
+    // Exibe o resultado na página, dentro da div com id "somaTotal"
+    valorSomado.innerText = "Valor: " + somaValores.toFixed(2) + " R$";
+
+    // Limpa o campo de input após o cálculo
+    document.getElementById('valorSalario').value = "";
+}
+
+
+
+
 
 // Roda quando a página estiver pronta
 document.addEventListener('DOMContentLoaded', () => {
@@ -839,31 +1256,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-
 </script>
 
-<!--Script para o cronômetro-->
+
 <script>
 
+        
 </script>
 
 
 <!-- Botão para limpar horas -->
 <script>
-  document.getElementById('limparHorasBtn').addEventListener('click', () => {
-  if (confirm('Deseja apenas limpar os horários visíveis da tela?')) {
-    // Apenas os campos do dia
-    const camposParaLimpar = ['horaEntrada', 'horaPausa', 'horaRetorno', 'horaSaida'];
-    
-    camposParaLimpar.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = '--:--'; // Ou vazio: ''
-    });
-  }
-});
-
-
-
 
   document.getElementById('formZerarHoras').addEventListener('submit', async function (e) {
     e.preventDefault();

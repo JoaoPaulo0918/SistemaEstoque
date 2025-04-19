@@ -56,11 +56,17 @@
     }
 
     #menus{
+     display: flex;
+     justify-content: center;
+     gap: 4rem;
+     margin-bottom: 4rem;
+     margin-top: 5rem;
+    }
+
+    #cardMeio{
       display: flex;
       justify-content: space-evenly;
       gap: 4rem;
-      margin-bottom: 4rem;
-      margin-top: 5rem;
       
     }
 
@@ -102,6 +108,10 @@
       display: flex;
       justify-content: space-between;
       width: 8%;
+    }
+
+     #btnHoras{
+      margin-left: 0.5rem ;
     }
 
     /*Para telas com tamanho max ate 1028*/
@@ -148,6 +158,10 @@
       #imgLogo{
       width: 10rem;
       height: 5rem;
+    }
+
+    .bi-clock-fill{
+      left: 1rem !important;
     }
 
     }
@@ -221,7 +235,7 @@
             </button>
           </a>
 
-          <a href="/admin/horas">
+          <a href="/admin/horas" id="btnHoras">
                 <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
                   <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
                 </svg>

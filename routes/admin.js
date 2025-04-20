@@ -743,6 +743,54 @@ router.get('/carregar-tempos', async (req, res) => {
 });
 
 
+//Rota para gerar pdf das horas do mês
+router.get('/horas-pdf', async (req, res) => {
+  try {
+    const usuarioId = req.user ? req.user._id : null;
+    if (!usuarioId) return res.status(401).json({ erro: 'Não autenticado' });
+
+    const agora = new Date();
+    const primeiroDiaMes = new Date(agora.getFullYear(), agora.getMonth(), 1);
+    const ultimoDiaMes = new Date(agora.getFullYear(), agora.getMonth() + 1, 0, 23, 59, 59);
+
+    // Busca todos os registros do mês atual
+    const registrosMes = await Tempo.find({
+      usuario: usuarioId,
+      createdAt: {
+        $gte: primeiroDiaMes,
+        $lte: ultimoDiaMes
+      }
+    });
+
+    // Inicializa totais
+    let totalHoras = 0;
+    let totalHoraExtra = 0;
+    let totalHoraFalta = 0;
+
+    // Soma os valores
+    registrosMes.forEach(registro => {
+      totalHoras += registro.total || 0;
+      totalHoraExtra += registro.horaExtra || 0;
+      totalHoraFalta += registro.horaFalta || 0;
+    });
+
+    // Envia os registros e os totais
+    res.json({
+      registros: registrosMes,
+      totais: {
+        total: totalHoras,
+        horaExtra: totalHoraExtra,
+        horaFalta: totalHoraFalta
+      }
+    });
+
+  } catch (error) {
+    console.error('Erro ao carregar tempos:', error);
+    res.status(500).json({ erro: 'Erro ao carregar tempos' });
+  }
+});
+
+
 //rota para limpar o banco 
 router.delete("/zerarTudoHoras", async (req, res) => {
   try {

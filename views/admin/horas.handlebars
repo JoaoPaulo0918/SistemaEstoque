@@ -201,6 +201,11 @@
         font-size: 1.2rem;
     }
 
+    .p{
+        margin-bottom: -0.1rem;
+    }
+
+
     .divHoras1{
         margin-top: 4rem;
         display: flex;
@@ -208,6 +213,7 @@
         & > p {
             position: absolute;
             text-decoration: none;
+            
         }
         & > #hora1{
             font-size: 1.3rem;
@@ -286,6 +292,8 @@
 
     .btn-tempo{
         border: none !important;
+        background: none;
+        margin-top: 1rem;
     }
 
     .btn-success{
@@ -372,17 +380,18 @@
     }
 
 
+
     /*Para telas com tamanho max ate 1028*/
     @media (max-width: 1028px) {
         #divDados{
-           
             font-size: 1.3rem;
         }
 
     }
 
+
     /*Para telas com tamanho max ate 564*/
-     @media (max-width: 410px ) {
+    @media (max-width: 410px ) {
     #divDados{
             width: 106vw;
             font-size: 1.3rem;
@@ -491,6 +500,7 @@
 
     }
 
+
     /*Para telas com tamanho max ate 480*/
     @media (max-width: 352px) {
       #imgLogo{
@@ -508,6 +518,7 @@
         font-family: sans-serif;
         font-weight: 400;
         font-size: 1rem;
+        margin-top: 1rem;
     }
 
 
@@ -550,7 +561,13 @@
         width: 48%;
         margin-top: 1rem;
     }
+
+    .btn-tempo{
+        border: none !important;
     }
+
+    }
+
 
 /*Para telas com tamanho max ate 330*/
    @media (max-width: 330px ) {
@@ -617,6 +634,10 @@
         width: 7.6rem;
         height: 14.4dvh;
     }
+
+    .btn-tempo{
+        border: none !important;
+    }
     #divProgressoPrincipal {
         display: flex;
         justify-content: space-evenly;
@@ -667,13 +688,13 @@
 
 
     /*Para telas com tamanho max ate 314*/
-     @media (max-width: 314px) {
-      #divDados {
+    @media (max-width: 314px) {
+    #divDados {
       width: 158vw;
       font-size: 1.3rem;
     }
 
-      #cardMeio {
+    #cardMeio {
       width: 100vw;
       display: flex;
       justify-content: space-around;
@@ -681,7 +702,7 @@
       margin-bottom: 7rem;
       margin-top: 2rem;
     }
-      #imgLogo{
+    #imgLogo{
       width: 10rem;
       height: 5rem;
     }
@@ -701,6 +722,7 @@
         font-family: sans-serif;
         font-weight: 400;
         font-size: 1rem;
+        margin-top: 1rem;
     }
 
     .divGrafico{
@@ -766,6 +788,12 @@
         margin-top: 1rem;
     }
 
+    .btn-tempo{
+        margin: -0.2rem;
+        border: none !important;  
+    }
+
+    
     }
 </style>
 
@@ -822,7 +850,7 @@
                                 <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
                             </svg>
                         </div>
-                        <p>Entrada</p>
+                        <p class="p">Entrada</p>
                         
                         <h4><span id="horaEntrada">--:--</span></h4>
                         <input id="inputHoraEntrada" />
@@ -840,7 +868,7 @@
                         <div class="divIcon">
                             <img src="../img/hora-do-intervalo.png" alt="" id="logoImg" />
                         </div>
-                        <p>Intervalo</p>
+                        <p class="p">Intervalo</p>
                         
                         <h4><span id="horaPausa">--:--</span></h4>
                         <input id="inputPausa" />
@@ -857,7 +885,7 @@
                         <div class="divIcon">
                             <img src="../img/hora-do-intervalo.png" alt="" id="logoImg" />
                         </div>
-                        <p>Retorno</p>
+                        <p class="p">Retorno</p>
                         
                         <h4><span id="horaRetorno">--:--</span></h4>
                         <input id="inputRetorno" />
@@ -879,7 +907,7 @@
                                 <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
                             </svg>
                         </div>
-                        <p>Saída</p>
+                        <p class="p">Saída</p>
                         
                         <h4><span id="horaSaida">--:--</span></h4>
                         <input id="inputHoraSaida" />
@@ -933,6 +961,7 @@
                 <button onclick="somando(horasExtrasGlobais)" class="btn btn-success">Somar</button>
                 <p id="somaTotal"></p>
             </div> 
+            <button onclick="gerarPDF()" id="btnPdf" class="btn btn-primary">Gerar PDF</button>
         </div>
 
     </div>
@@ -954,7 +983,8 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const dataElemento = document.getElementById('dataAtual');
-        const butonZerarHoras = document.getElementById('butonNone')
+        const butonZerarHoras = document.getElementById('butonNone');
+        const butonPdf = document.getElementById('btnPdf');
 
         if (dataElemento) { // Verifica se o elemento existe no DOM
             const dataAtual = new Date();
@@ -970,10 +1000,12 @@
 
         if (dia === 30 || dia === 31) {
             alert('Data final: botão será exibido!');
-            butonZerarHoras.style.display = 'block'; // ou 'inline-block'
+            butonZerarHoras.style.display = 'block'; // ou 'inline-block';
+            butonPdf.style.display = 'block';
         } else {
             console.log('Dia comum: botão será escondido. ' + dia);
             butonZerarHoras.style.display = 'none';
+            butonPdf.style.display = 'none';
         }
 
     } else {
@@ -1153,7 +1185,13 @@ async function carregarTempos() {
 }
 
 
- //Função para calcular hora extra      
+// Roda quando a página estiver pronta
+document.addEventListener('DOMContentLoaded', () => {
+  carregarTempos();
+});
+
+
+//Função para calcular hora extra      
  function somando(horasExtras) {
     // Mostra no console o valor de horas extras recebido (útil para depuração)
     console.log("Horas extras recebidas:", horasExtras);
@@ -1187,16 +1225,9 @@ async function carregarTempos() {
 }
 
 
-
-
-
-// Roda quando a página estiver pronta
-document.addEventListener('DOMContentLoaded', () => {
-  carregarTempos();
-});
-
+//Função para preencher barra total de horas
 function preencherBarraHorasExtras(horasExtras) {
-  const maxHorasExtras = 8; // valor máximo da barra
+  const maxHorasExtras = 12; // valor máximo da barra
   const percentual = Math.min((horasExtras / maxHorasExtras) * 100, 100);
 
   const barra = document.getElementById('divCarregamento');
@@ -1301,6 +1332,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 <script>
+
+
+  async function gerarPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Busca os dados da API
+    const res = await fetch('/admin/horas-pdf');
+    const { registros, totais } = await res.json();
+
+    const formatarHora = data => data ? new Date(data).toLocaleTimeString("pt-BR", { hour: '2-digit', minute: '2-digit' }) : "-";
+    const formatarData = data => data ? new Date(data).toLocaleDateString("pt-BR") : "-";
+
+    const colunas = [
+      "Dia",
+      "Entrada",
+      "Pausa",
+      "Retorno",
+      "Saída",
+      "Total (h)",
+      "Hora Extra",
+      "Hora Falta"
+    ];
+
+    const linhas = registros.map(r => [
+      formatarData(r.dataCriacao),
+      formatarHora(r.horaEntrada),
+      formatarHora(r.horaPausa),
+      formatarHora(r.horaRetorno),
+      formatarHora(r.horaSaida),
+      r.total ?? "-",
+      r.horaExtra ?? "-",
+      r.horaFalta ?? "-"
+    ]);
+
+    doc.text("Relatório de Horas - Mês Atual", 14, 15);
+    doc.autoTable({
+      head: [colunas],
+      body: linhas,
+      startY: 20,
+      styles: { fontSize: 9 }
+    });
+
+    // Totais no final
+    const posY = doc.lastAutoTable.finalY + 10;
+    doc.text(`Total de Horas: ${totais.total}`, 14, posY);
+    doc.text(`Hora Extra: ${totais.horaExtra}`, 14, posY + 6);
+    doc.text(`Hora Falta: ${totais.horaFalta}`, 14, posY + 12);
+
+    doc.save("relatorio-tempos.pdf");
+  }
+
 
         
 </script>

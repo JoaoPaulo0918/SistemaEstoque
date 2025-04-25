@@ -112,6 +112,7 @@ const upload = multer({ storage });
 // Servir pastas estáticas
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/img', express.static(path.join(__dirname, 'views/img')));
+app.use('/js', express.static(path.join(__dirname, 'views/js')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Importar e usar rotas

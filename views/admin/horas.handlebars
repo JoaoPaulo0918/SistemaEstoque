@@ -202,7 +202,7 @@
     }
 
     .p{
-        margin-bottom: -0.1rem;
+        margin-bottom: 1rem;
     }
 
 
@@ -850,9 +850,11 @@
                                 <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
                             </svg>
                         </div>
-                        <p class="p">Entrada</p>
+                        <p class="p" >Entrada</p>
+                        <p id="entradaP">{{entrada}}</p>
                         
-                        <h4><span id="horaEntrada">--:--</span></h4>
+
+                        
                         <input id="inputHoraEntrada" />
 
 
@@ -868,9 +870,11 @@
                         <div class="divIcon">
                             <img src="../img/hora-do-intervalo.png" alt="" id="logoImg" />
                         </div>
-                        <p class="p">Intervalo</p>
+                        <p class="p" >Intervalo</p>
+                        <p id="intervaloP">{{entrada}}</p>
                         
-                        <h4><span id="horaPausa">--:--</span></h4>
+
+                       
                         <input id="inputPausa" />
     
                         <button class="btn-tempo" data-tipo="pausa" id="btnPausa"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-dotted" viewBox="0 0 16 16">
@@ -885,9 +889,11 @@
                         <div class="divIcon">
                             <img src="../img/hora-do-intervalo.png" alt="" id="logoImg" />
                         </div>
-                        <p class="p">Retorno</p>
+                        <p class="p" >Retorno</p>
+                        <p id="retornoP">{{entrada}}</p>
                         
-                        <h4><span id="horaRetorno">--:--</span></h4>
+
+                        
                         <input id="inputRetorno" />
 
                         
@@ -907,9 +913,10 @@
                                 <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
                             </svg>
                         </div>
-                        <p class="p">Saída</p>
+                        <p class="p" >Saída</p>
+                        <p id="saidaP">{{entrada}}</p>
                         
-                        <h4><span id="horaSaida">--:--</span></h4>
+                        
                         <input id="inputHoraSaida" />
 
                         <button class="btn-tempo" data-tipo="saida" id="btnSaida"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-dotted" viewBox="0 0 16 16">
@@ -919,6 +926,8 @@
 
                     </div>
                 
+                <!--Script para dados das horas do dia-->
+                <script src="/js/horaDia.js"></script>
 
             </div>
 
@@ -978,7 +987,6 @@
         </div>
 </footer>
 
-
 <!--Script para ver a data -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -1013,380 +1021,21 @@
     }
     });
 
-    function preencherHora(tipo) {
-    const dataAtual = new Date();
-    const horaFormatada = dataAtual.toLocaleTimeString('pt-BR', {
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-
-    switch (tipo) {
-        case 'entrada':
-            document.getElementById('inputHoraEntrada').value = horaFormatada;
-            break;
-        case 'pausa':
-            document.getElementById('inputPausa').value = horaFormatada;
-            break;
-        case 'retorno':
-            document.getElementById('inputRetorno').value = horaFormatada;
-            break;
-        case 'saida':
-            document.getElementById('inputHoraSaida').value = horaFormatada;
-            break;
-    }
-}
-
-
 
 </script>
+
+<!--Script para salvar as horas-->
+<script src="/js/salvarHora.js"></script>
+
 
 <!--Script para dados das horas-->
-<script>
-document.querySelectorAll('.btn-tempo').forEach(botao => {
-    //Função para salvar as horas de cada botão
-    botao.addEventListener('click', async () => {
-        const tipo = botao.getAttribute('data-tipo');
+<script src="/js/horaExtra.js"></script>
 
-        const dataAtual = new Date();
-        const horaFormatada = dataAtual.toLocaleTimeString('pt-BR', {
-            hour: '2-digit',
-            minute: '2-digit'
-        });
 
-        // Preencher o campo correspondente
-        const inputId = {
-            entrada: 'inputHoraEntrada',
-            pausa: 'inputPausa',
-            retorno: 'inputRetorno',
-            saida: 'inputHoraSaida'
-        }[tipo];
+<script src="/js/cronometro.js"></script>
 
-        if (inputId) {
-            document.getElementById(inputId).value = horaFormatada;
-        }
-
-        // Enviar pro servidor
-        try {
-            const resposta = await fetch('/admin/salvar-tempo', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ tipo })
-            });
-
-            if (!resposta.ok) throw new Error('Erro ao salvar tempo');
-
-            const dados = await resposta.json();
-            console.log('Tempo salvo:', dados);
-
-            location.reload();
-        } catch (error) {
-            console.error('Erro ao salvar hora:', error);
-        }
-
-
-    });
-});
-
-// Declare fora da função:
-let horasExtrasGlobais = 0;
-
-async function carregarTempos() {
-  try {
-    const res = await fetch('/admin/carregar-tempos');
-    const data = await res.json();
-
-    const horasExtras = parseFloat(data.horaExtra);
-    horasExtrasGlobais = horasExtras; // salva para usar no clique
-
-    const mapa = {
-      horaEntrada: 'horaEntrada',
-      horaPausa: 'horaPausa',
-      horaRetorno: 'horaRetorno',
-      horaSaida: 'horaSaida'
-    };
-
-    // Preenche os horários
-    Object.entries(mapa).forEach(([campo, id]) => {
-      const el = document.getElementById(id);
-      if (el && data[campo]) {
-        const hora = new Date(data[campo]).toLocaleTimeString('pt-BR', {
-          hour: '2-digit',
-          minute: '2-digit'
-        });
-        el.textContent = hora;
-      }
-    });
-
-    // Função para formatar decimal para HH:mm
-    function formatarDecimalParaHorasMinutos(decimal) {
-      if (typeof decimal !== 'number' || isNaN(decimal)) return '00:00';
-
-      const horas = Math.floor(decimal);
-      const minutos = Math.round((decimal - horas) * 60);
-
-      const horasStr = horas.toString().padStart(2, '0');
-      const minutosStr = minutos.toString().padStart(2, '0');
-
-      return `${horasStr}:${minutosStr}`;
-    }
-
-    // Preenche os totais, extras e faltas
-    if (data.total !== undefined) {
-      const total = data.total || 0;
-      const extra = data.horaExtra || 0;
-      const falta = data.horaFalta || 0;
-
-      preencherBarraHorasExtras(extra);
-
-      
-      document.getElementById('totalHoarasTrabalhadas').textContent = formatarDecimalParaHorasMinutos(total);
-      document.getElementById('totalTrabalhado').textContent = formatarDecimalParaHorasMinutos(total);
-      document.getElementById('horaExtra').textContent = formatarDecimalParaHorasMinutos(extra);
-      document.getElementById('horaFalta').textContent = formatarDecimalParaHorasMinutos(falta);
-    }
-
-
-    // Função para iniciar o cronômetro
-    function iniciarCronometro(desde) {
-      const tempoInicial = new Date(desde);
-      const elemento = document.getElementById('cronometro');
-
-      if (!elemento) return;
-
-      setInterval(() => {
-        const agora = new Date();
-        const diffMs = agora - tempoInicial;
-
-        const diffSegundos = Math.floor(diffMs / 1000);
-        const h = String(Math.floor(diffSegundos / 3600)).padStart(2, '0');
-        const m = String(Math.floor((diffSegundos % 3600) / 60)).padStart(2, '0');
-        const s = String(diffSegundos % 60).padStart(2, '0');
-
-        elemento.textContent = `${h}:${m}:${s}`;
-      }, 1000);
-    }
-
-    
-    // Inicia o cronômetro com base na hora mais recente registrada
-    if (data.horaEntrada && !data.horaSaida) {
-    if (data.horaRetorno && !data.horaSaida) {
-        iniciarCronometro(data.horaRetorno); // Após retorno, contar tempo de trabalho
-    } else if (data.horaEntrada && !data.horaPausa) {
-        iniciarCronometro(data.horaEntrada); // Início do expediente
-    }
-    }
-
-
-  } catch (err) {
-    console.error('Erro ao carregar horas:', err);
-  }
-}
-
-
-// Roda quando a página estiver pronta
-document.addEventListener('DOMContentLoaded', () => {
-  carregarTempos();
-});
-
-
-//Função para calcular hora extra      
- function somando(horasExtras) {
-    // Mostra no console o valor de horas extras recebido (útil para depuração)
-    console.log("Horas extras recebidas:", horasExtras);
-
-    // Seleciona o elemento onde será exibido o resultado final
-    const valorSomado = document.getElementById('somaTotal');
-
-    // Pega o valor do input de salário, convertendo para número (float)
-    const input = parseFloat(document.getElementById('valorSalario').value);
-
-    if (isNaN(horasExtras) || isNaN(input)) {
-        alert("Valores inválidos. Verifique os dados inseridos.");
-        return;
-    }
-
-    /*
-      Calcula o valor total com horas extras:
-      - input / 220: valor de 1 hora de trabalho (considerando 220 horas mensais)
-      - ((input / 220) * 1.5 * horasExtras): valor das horas extras (com 50% de adicional)
-    */
-    const somaValores = (input / 220) + ((input / 220) * 1.5 * horasExtras);
-
-    // Mostra o valor total com 2 casas decimais em um alerta
-    //alert('O valor é: ' + somaValores.toFixed(2));
-
-    // Exibe o resultado na página, dentro da div com id "somaTotal"
-    valorSomado.innerText = "Valor: " + somaValores.toFixed(2) + " R$";
-
-    // Limpa o campo de input após o cálculo
-    document.getElementById('valorSalario').value = "";
-}
-
-
-//Função para preencher barra total de horas
-function preencherBarraHorasExtras(horasExtras) {
-  const maxHorasExtras = 12; // valor máximo da barra
-  const percentual = Math.min((horasExtras / maxHorasExtras) * 100, 100);
-
-  const barra = document.getElementById('divCarregamento');
-  barra.style.width = `${percentual}%`;
-  barra.textContent = `${horasExtras.toFixed(2)}h`;
-}
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    const spansBase = {
-        entrada: document.getElementById("horaEntrada"),
-        pausa: document.getElementById("horaPausa"),
-        volta: document.getElementById("horaRetorno"),
-        saida: document.getElementById("horaSaida")
-    };
-
-
-    let currentInterval = null;
-
-    function parseTimeToDate(horaString) {
-        const [h, m, s] = horaString.split(":").map(Number);
-        const data = new Date();
-        data.setHours(h, m, s, 0);
-        return data;
-    }
-
-    function iniciarCronometro(tipo) {
-        if (currentInterval) clearInterval(currentInterval);
-
-        const baseHora = spansBase[tipo].textContent.trim();
-        const baseDate = parseTimeToDate(baseHora);
-
-        currentInterval = setInterval(() => {
-            const agora = new Date();
-            const diff = agora - baseDate;
-
-            if (diff < 0) return; // ainda não chegou na hora base
-
-            const h = String(Math.floor(diff / 3600000)).padStart(2, '0');
-            const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
-            const s = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
-
-            spansCrono[tipo].textContent = `${h}:${m}:${s}`;
-        }, 1000);
-
-        localStorage.setItem("cronometroAtivo", tipo);
-    }
-
-    // Botões
-    document.getElementById("btnEntrada").addEventListener("click", () => iniciarCronometro("entrada"));
-    document.getElementById("btnPausa").addEventListener("click", () => iniciarCronometro("pausa"));
-    document.getElementById("btnVolta").addEventListener("click", () => iniciarCronometro("volta"));
-    document.getElementById("btnSaida").addEventListener("click", () => iniciarCronometro("saida"));
-
-    // Recuperar cronômetro ativo ao recarregar
-    const ativo = localStorage.getItem("cronometroAtivo");
-    if (ativo) iniciarCronometro(ativo);
-});
-
-
-function preencherBarraTempoReal(idBarra, horaInicio, horaFim) {
-  const barra = document.getElementById(idBarra);
-  if (!barra || !horaInicio || !horaFim) return;
-
-  const inicioMS = new Date(horaInicio).getTime();
-  const fimMS = new Date(horaFim).getTime();
-
-  const totalMS = fimMS - inicioMS;
-
-  if (totalMS <= 0) return;
-
-  const intervalo = setInterval(() => {
-    const agoraMS = new Date().getTime();
-    const percorrido = agoraMS - inicioMS;
-    let porcentagem = (percorrido / totalMS) * 100;
-
-    if (porcentagem >= 100) {
-      porcentagem = 100;
-      clearInterval(intervalo); // para quando atingir 100%
-    }
-
-    barra.style.backgroundColor = idBarra === 'progresso1' ? '#4caf50' : '#2196f3';
-    barra.style.width = `${porcentagem}%`;
-  }, 1000); // atualiza a cada 1 segundo
-}
-
-
-// Simulando o preenchimento da barra com 100% ao clicar
-document.addEventListener('DOMContentLoaded', () => {
-  if (data.horaEntrada && data.horaPausa) {
-    preencherBarraTempoReal('progresso1', data.horaEntrada, data.horaPausa);
-  }
-
-  if (data.horaRetorno && data.horaSaida) {
-    preencherBarraTempoReal('progresso2', data.horaRetorno, data.horaSaida);
-  }
-});
-
-
-</script>
-
-
-<script>
-
-
-  async function gerarPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
-    // Busca os dados da API
-    const res = await fetch('/admin/horas-pdf');
-    const { registros, totais } = await res.json();
-
-    const formatarHora = data => data ? new Date(data).toLocaleTimeString("pt-BR", { hour: '2-digit', minute: '2-digit' }) : "-";
-    const formatarData = data => data ? new Date(data).toLocaleDateString("pt-BR") : "-";
-
-    const colunas = [
-      "Dia",
-      "Entrada",
-      "Pausa",
-      "Retorno",
-      "Saída",
-      "Total (h)",
-      "Hora Extra",
-      "Hora Falta"
-    ];
-
-    const linhas = registros.map(r => [
-      formatarData(r.dataCriacao),
-      formatarHora(r.horaEntrada),
-      formatarHora(r.horaPausa),
-      formatarHora(r.horaRetorno),
-      formatarHora(r.horaSaida),
-      r.total ?? "-",
-      r.horaExtra ?? "-",
-      r.horaFalta ?? "-"
-    ]);
-
-    doc.text("Relatório de Horas - Mês Atual", 14, 15);
-    doc.autoTable({
-      head: [colunas],
-      body: linhas,
-      startY: 20,
-      styles: { fontSize: 9 }
-    });
-
-    // Totais no final
-    const posY = doc.lastAutoTable.finalY + 10;
-    doc.text(`Total de Horas: ${totais.total}`, 14, posY);
-    doc.text(`Hora Extra: ${totais.horaExtra}`, 14, posY + 6);
-    doc.text(`Hora Falta: ${totais.horaFalta}`, 14, posY + 12);
-
-    doc.save("relatorio-tempos.pdf");
-  }
-
-
-        
-</script>
+<!--Script para gerar pdf da tabela de horas mensal-->
+<script src="/js/pdfMensal.js"></script>
 
 
 <!-- Botão para limpar horas -->

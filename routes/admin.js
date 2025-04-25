@@ -705,42 +705,71 @@ router.get('/carregar-tempos', async (req, res) => {
     if (!usuarioId) return res.status(401).json({ erro: 'Não autenticado' });
 
     const agora = new Date();
-    const primeiroDiaMes = new Date(agora.getFullYear(), agora.getMonth(), 1);
-    const ultimoDiaMes = new Date(agora.getFullYear(), agora.getMonth() + 1, 0, 23, 59, 59);
+    const periodo = req.query.periodo || 'dia';
 
-    // Busca todos os registros do mês atual
-    const registrosMes = await Tempo.find({
+    let dataInicio, dataFim;
+
+    if (periodo === 'dia') {
+      dataInicio = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate(), 0, 0, 0);
+      dataFim = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate(), 23, 59, 59);
+    } else if (periodo === 'semana') {
+      const diaSemana = agora.getDay();
+      dataInicio = new Date(agora);
+      dataInicio.setDate(agora.getDate() - diaSemana);
+      dataInicio.setHours(0, 0, 0, 0);
+
+      dataFim = new Date(dataInicio);
+      dataFim.setDate(dataInicio.getDate() + 6);
+      dataFim.setHours(23, 59, 59, 999);
+    } else {
+      dataInicio = new Date(agora.getFullYear(), agora.getMonth(), 1);
+      dataFim = new Date(agora.getFullYear(), agora.getMonth() + 1, 0, 23, 59, 59);
+    }
+
+    const registros = await Tempo.find({
       usuario: usuarioId,
       createdAt: {
-        $gte: primeiroDiaMes,
-        $lte: ultimoDiaMes
+        $gte: dataInicio,
+        $lte: dataFim
       }
     });
 
-    // Inicializa totais
     let totalHoras = 0;
     let totalHoraExtra = 0;
     let totalHoraFalta = 0;
 
-    // Soma os valores
-    registrosMes.forEach(registro => {
+    registros.forEach(registro => {
       totalHoras += registro.total || 0;
       totalHoraExtra += registro.horaExtra || 0;
       totalHoraFalta += registro.horaFalta || 0;
     });
 
-    res.json({
-      total: totalHoras,
-      horaExtra: totalHoraExtra,
-      horaFalta: totalHoraFalta
-    });
+    const detalhes = registros.map(registro => ({
+      horaEntrada: registro.horaEntrada,
+      horaPausa: registro.horaPausa,  // ou 'pausa' se for renomeado
+      horaRetorno: registro.horaRetorno,  // ou 'retornoPausa' se for renomeado
+      horaSaida: registro.horaSaida
+    }));
+    
+    function formatarHoras(minutos) {
+      const horas = Math.floor(minutos / 60);
+      const mins = minutos % 60;
+      return `${String(horas).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
+    }
 
+    res.json({
+      total: totalHoras,         // minutos como número
+      horaExtra: totalHoraExtra,
+      horaFalta: totalHoraFalta,
+      registros: detalhes
+    });
 
   } catch (error) {
     console.error('Erro ao carregar tempos:', error);
     res.status(500).json({ erro: 'Erro ao carregar tempos' });
   }
 });
+
 
 
 //Rota para gerar pdf das horas do mês

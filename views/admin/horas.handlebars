@@ -80,6 +80,7 @@
     #divTotal{
         margin-top: 8dvh;
         font-family: sans-serif;
+        
     }
 
     #logoImg{
@@ -95,6 +96,7 @@
         width: 100%;
         height: 10dvh;
         gap: 1rem;
+        
     }
 
     #divProgressoPrincipal{
@@ -105,32 +107,30 @@
         margin-top: 5rem;
     }
 
-#divProgresso1, #divProgresso2 {
-  width: 100%;
-  height: 20px;
-  background-color: #ddd;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 10px;
-}
+    #divProgresso1, #divProgresso2 {
+    width: 100%;
+    height: 20px;
+    background-color: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    }
 
-#progresso1 {
-  height: 100%;
-  width: 0%;
-  background-color: #4caf50; /* verde */
-  border-radius: 10px;
-  transition: width 1s linear;
-}
+    #progresso1 {
+    height: 100%;
+    width: 0%;
+    background-color: #4caf50; /* verde */
+    border-radius: 10px;
+    transition: width 1s linear;
+    }
 
-#progresso2 {
-  height: 100%;
-  width: 0%;
-  background-color: #2196f3; /* azul */
-  border-radius: 10px;
-  transition: width 1s linear;
-}
-
-
+    #progresso2 {
+    height: 100%;
+    width: 0%;
+    background-color: #2196f3; /* azul */
+    border-radius: 10px;
+    transition: width 1s linear;
+    }
 
 
     #divBotoes{
@@ -190,7 +190,7 @@
     }
 
     .divHoras1, .divHoras2, .divHoras3,
-    .divHoras4{
+    .divHoras4, .divHoras5{
         display: flex;
         align-items: center;
         width: 100%;
@@ -201,6 +201,11 @@
         font-size: 1.2rem;
     }
 
+    .p{
+        margin-bottom: 1rem;
+    }
+
+
     .divHoras1{
         margin-top: 4rem;
         display: flex;
@@ -208,6 +213,7 @@
         & > p {
             position: absolute;
             text-decoration: none;
+            
         }
         & > #hora1{
             font-size: 1.3rem;
@@ -269,8 +275,30 @@
         }
     }
 
+    #somaTotal{
+        font-size: 1.3rem;
+            position: absolute;
+            left: 71.2%;
+            font-weight: 600;
+            color: #363536;
+    }
+
+    #valorSalario{
+        border: 1px solid  #b9b9b9;
+        border-radius: 13px;
+        height: 2.3rem;
+        padding: 0.5rem;
+    }
+
     .btn-tempo{
         border: none !important;
+        background: none;
+        margin-top: 1rem;
+    }
+
+    .btn-success{
+        display: flex;
+        margin-left: 1.5rem;
     }
 
     #inputHoraEntrada, #inputPausa, #inputRetorno, 
@@ -323,47 +351,350 @@
         white-space: nowrap;
     }
 
+    #formZerarHoras{
+        width: 100%;
+        height: 2rem;
+        margin-top: 6rem;
+        position: relative;
+        display: flex !important;
+        flex-direction: column;
 
+        & > .btn-danger{
+            position: absolute;
+            display: flex;
+            left: 48%;
+        }
+
+        & > p{
+            position: absolute;
+            display: flex;
+            left: 46%;
+            margin-top: 2.5rem;
+            font-family: sans-serif;
+            font-weight: 700;
+        }
+    }
 
     footer{
         height: 5rem;
     }
 
 
+
     /*Para telas com tamanho max ate 1028*/
     @media (max-width: 1028px) {
         #divDados{
-           
             font-size: 1.3rem;
         }
 
     }
+
 
     /*Para telas com tamanho max ate 564*/
-     @media (max-width: 564px) {
-        #divDados{
+    @media (max-width: 410px ) {
+    #divDados{
             width: 106vw;
             font-size: 1.3rem;
+    }
+
+    #divTotal {
+        display: flex;
+        flex-direction: column;
+        margin-top: 8dvh;
+        font-family: sans-serif;
+        width: 150vw;
+        
+    }
+
+    #extratoData{
+        gap: 1rem;
+        display: flex;
+    }
+
+    #formZerarHoras{
+        width: 145vw;
+        height: 2rem;
+        margin-top: 6rem;
+        position: relative;
+        display: flex !important;
+        flex-direction: column;
+        
+
+        & > .btn-danger{
+            position: absolute;
+            display: flex;
+            left: 46%;
+        }
+
+        & > p{
+            position: absolute;
+            display: flex;
+            left: 42%;
+            margin-top: 2.5rem;
+            font-family: sans-serif;
+            font-weight: 700;
+        }
+    }
+
+
+    #cronometro{
+        font-family: sans-serif;
+        font-weight: 400;
+        font-size: 1rem;
+        margin-top: 1rem;
+    }
+
+    #divBotoes{
+        width: 100%;
+        height: 10vh;
+        gap: 1rem;
+    }
+    .botoesAcesso {
+        width: 7.6rem;
+        height: 14.4dvh;
+    }
+    #divProgressoPrincipal {
+        display: flex;
+        justify-content: space-evenly;
+        width: 97%;
+        height: 5dvh;
+        margin-top: 5rem;
+    }
+
+    .divGrafico{
+        width: 100%;
+        height: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 5rem;
+        position: relative;
+        left: 35%;
+
+        & > p {
+            position: absolute;
+            display: flex;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        & > #divTotal{
+            width: 80%;
+            height: 2.2rem;
+            border: 1px solid #b9b9b9;
+            display: flex;
+            position: relative;
         }
 
     }
 
+    #somaTotal{
+        font-size: 1.3rem;
+        position: absolute;
+        left: 121.2%;
+        font-weight: 600;
+        color: #363536;
+        width: 48%;
+        margin-top: 1rem;
+    }
+
+    }
+
+
     /*Para telas com tamanho max ate 480*/
-    @media (max-width: 480px) {
+    @media (max-width: 352px) {
       #imgLogo{
       width: 10.5rem;
       height: 5.5rem;
     }
+
+    #divTotal {
+        margin-top: 8dvh;
+        font-family: sans-serif;
+        width: 168vw;
     }
 
+    #cronometro{
+        font-family: sans-serif;
+        font-weight: 400;
+        font-size: 1rem;
+        margin-top: 1rem;
+    }
+
+
+    .divGrafico{
+        left: 49%;
+    }
+
+
+    #formZerarHoras{
+        width: 270%;
+        height: 2rem;
+        margin-top: 6rem;
+        position: relative;
+        display: flex !important;
+        flex-direction: column;
+
+        & > .btn-danger{
+            position: absolute;
+            display: flex;
+            left: 90%;
+        }
+
+        & > p{
+            position: absolute;
+            display: flex !important;
+            left: 30.5%;
+            margin-top: 2.5rem;
+            font-family: sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+    }
+
+    #somaTotal{
+        font-size: 1.3rem;
+        position: absolute;
+        left: 134.2%;
+        font-weight: 600;
+        color: #363536;
+        width: 48%;
+        margin-top: 1rem;
+    }
+
+    .btn-tempo{
+        border: none !important;
+    }
+
+    }
+
+
+/*Para telas com tamanho max ate 330*/
+   @media (max-width: 330px ) {
+    #divDados{
+            width: 106vw;
+            font-size: 1.3rem;
+    }
+
+    #divTotal {
+        display: flex;
+        flex-direction: column;
+        margin-top: 8dvh;
+        font-family: sans-serif;
+        width: 174vw;
+        
+        
+       
+    }
+
+    #extratoData{
+        gap: 1rem;
+        display: flex;
+    }
+
+    #formZerarHoras{
+        width: 155vw;
+        height: 2rem;
+        margin-top: 6rem;
+        position: relative;
+        display: flex !important;
+        flex-direction: column;
+        
+
+        & > .btn-danger{
+            position: absolute;
+            display: flex;
+            left: 49%;
+        }
+
+        & > p{
+            position: absolute;
+            display: flex;
+            left: 43%;
+            margin-top: 2.5rem;
+            font-family: sans-serif;
+            font-weight: 700;
+        }
+    }
+
+
+    #cronometro{
+        font-family: sans-serif;
+        font-weight: 400;
+        font-size: 1rem;
+        margin-top: 1rem;
+    }
+
+    #divBotoes{
+        width: 100%;
+        height: 10vh;
+        gap: 1rem;
+    }
+    .botoesAcesso {
+        width: 7.6rem;
+        height: 14.4dvh;
+    }
+
+    .btn-tempo{
+        border: none !important;
+    }
+    #divProgressoPrincipal {
+        display: flex;
+        justify-content: space-evenly;
+        width: 97%;
+        height: 5dvh;
+        margin-top: 5rem;
+    }
+
+    .divGrafico{
+        width: 100%;
+        height: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 5rem;
+        position: relative;
+        left: 50%;
+
+        & > p {
+            position: absolute;
+            display: flex;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        & > #divTotal{
+            width: 80%;
+            height: 2.2rem;
+            border: 1px solid #b9b9b9;
+            display: flex;
+            position: relative;
+        }
+
+    }
+
+    #somaTotal {
+        font-size: 1.3rem;
+        position: absolute;
+        left: 143.2%;
+        font-weight: 600;
+        color: #363536;
+        width: 48%;
+        margin-top: 1rem;
+    }
+
+
+    }
+
+
     /*Para telas com tamanho max ate 314*/
-     @media (max-width: 314px) {
-      #divDados {
+    @media (max-width: 314px) {
+    #divDados {
       width: 158vw;
       font-size: 1.3rem;
     }
 
-      #cardMeio {
+    #cardMeio {
       width: 100vw;
       display: flex;
       justify-content: space-around;
@@ -371,14 +702,99 @@
       margin-bottom: 7rem;
       margin-top: 2rem;
     }
-      #imgLogo{
+    #imgLogo{
       width: 10rem;
       height: 5rem;
     }
 
+    #divTotal {
+        margin-top: 8dvh;
+        font-family: sans-serif;
+        width: 216vw;
     }
 
+    #extratoData{
+        gap: 1rem;
+        
+    }
 
+    #cronometro{
+        font-family: sans-serif;
+        font-weight: 400;
+        font-size: 1rem;
+        margin-top: 1rem;
+    }
+
+    .divGrafico{
+        width: 100%;
+        height: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 5rem;
+        position: relative;
+        left: 77%;
+
+        & > p {
+            position: absolute;
+            display: flex;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        & > #divTotal{
+            width: 80%;
+            height: 2.2rem;
+            border: 1px solid #b9b9b9;
+            display: flex;
+            position: relative;
+        }
+
+    }
+
+    #formZerarHoras{
+        width: 270%;
+        height: 2rem;
+        margin-top: 6rem;
+        position: relative;
+        display: flex !important;
+        flex-direction: column;
+
+        & > .btn-danger{
+            position: absolute;
+            display: flex;
+            left: 47%;
+        }
+
+        & > p{
+            position: absolute;
+            display: flex;
+            left: 42%;
+            margin-top: 2.5rem;
+            font-family: sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+    }
+
+    #somaTotal{
+        font-size: 1.3rem;
+        position: absolute;
+        left: 155.2%;
+        font-weight: 600;
+        color: #363536;
+        width: 47%;
+        margin-top: 1rem;
+    }
+
+    .btn-tempo{
+        margin: -0.2rem;
+        border: none !important;  
+    }
+
+    
+    }
 </style>
 
 <script>
@@ -434,9 +850,11 @@
                                 <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
                             </svg>
                         </div>
-                        <p>Entrada</p>
+                        <p class="p" >Entrada</p>
+                        <p id="entradaP">{{entrada}}</p>
                         
-                        <h4><span id="horaEntrada">--:--</span></h4>
+
+                        
                         <input id="inputHoraEntrada" />
 
 
@@ -452,9 +870,11 @@
                         <div class="divIcon">
                             <img src="../img/hora-do-intervalo.png" alt="" id="logoImg" />
                         </div>
-                        <p>Intervalo</p>
+                        <p class="p" >Intervalo</p>
+                        <p id="intervaloP">{{entrada}}</p>
                         
-                        <h4><span id="horaPausa">--:--</span></h4>
+
+                       
                         <input id="inputPausa" />
     
                         <button class="btn-tempo" data-tipo="pausa" id="btnPausa"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-dotted" viewBox="0 0 16 16">
@@ -469,9 +889,11 @@
                         <div class="divIcon">
                             <img src="../img/hora-do-intervalo.png" alt="" id="logoImg" />
                         </div>
-                        <p>Retorno</p>
+                        <p class="p" >Retorno</p>
+                        <p id="retornoP">{{entrada}}</p>
                         
-                        <h4><span id="horaRetorno">--:--</span></h4>
+
+                        
                         <input id="inputRetorno" />
 
                         
@@ -491,9 +913,10 @@
                                 <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
                             </svg>
                         </div>
-                        <p>Saída</p>
+                        <p class="p" >Saída</p>
+                        <p id="saidaP">{{entrada}}</p>
                         
-                        <h4><span id="horaSaida">--:--</span></h4>
+                        
                         <input id="inputHoraSaida" />
 
                         <button class="btn-tempo" data-tipo="saida" id="btnSaida"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-dotted" viewBox="0 0 16 16">
@@ -502,24 +925,32 @@
                         </button>
 
                     </div>
-
-                <!--<button id="limparHorasBtn">Limpar Banco de Horas</button>
-                    <form id="formZerarHoras" method="POST">
-                        <button type="submit" class="btn btn-danger">Zerar todos os dados de horas</button>
-                    </form>
-                -->
+                
+                <!--Script para dados das horas do dia-->
+                <script src="/js/horaDia.js"></script>
 
             </div>
 
             
         </div>
-        
+
+        <!--<button id="limparHorasBtn">Limpar Banco de Horas</button>-->
+        <div class="container-fluid" id="butonNone">
+            <form id="formZerarHoras" method="POST">
+                <button type="submit" class="btn btn-danger">
+                    <img src="../img/x-circle-fill.svg" alt="">
+                </button>
+                <p>Zerar Horas</p>
+            </form>
+        </div>
+
+
         <!--Div com os dados-->
         <div id="divValores">
             <h2>Totalização</h2>
             <div class="divHoras1">
                 <p><a href="" style="text-decoration: none; color:#000000">Horas trabalhadas</a></p>
-                <p id="hora1"><span id="totalTrabalhado">00:00</span></p>
+                <p id="hora1"><span id="totalHoarasTrabalhadas">00:00</span></p>
             </div>
             <div class="divHoras2">
                 <p><a href="" style="text-decoration: none; color:#000000">Horas Extras</a></p>
@@ -533,6 +964,13 @@
                 <p><a href="" style="text-decoration: none; color:#000000">Banco de Horas</a></p>
                 <p id="hora4"><span id="totalTrabalhado">00:00</span></p>
             </div> 
+            <!--Div de calcular hora extra-->
+            <div class="divHoras5">
+                <input type="number" id="valorSalario" placeholder="Digite seu salário">
+                <button onclick="somando(horasExtrasGlobais)" class="btn btn-success">Somar</button>
+                <p id="somaTotal"></p>
+            </div> 
+            <button onclick="gerarPDF()" id="btnPdf" class="btn btn-primary">Gerar PDF</button>
         </div>
 
     </div>
@@ -549,11 +987,12 @@
         </div>
 </footer>
 
-
 <!--Script para ver a data -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const dataElemento = document.getElementById('dataAtual');
+        const butonZerarHoras = document.getElementById('butonNone');
+        const butonPdf = document.getElementById('btnPdf');
 
         if (dataElemento) { // Verifica se o elemento existe no DOM
             const dataAtual = new Date();
@@ -564,306 +1003,43 @@
             });
 
             dataElemento.innerText = dataFormatada;
+
+           const dia = dataAtual.getDate(); // Pega o número do dia
+
+        if (dia === 30 || dia === 31) {
+            alert('Data final: botão será exibido!');
+            butonZerarHoras.style.display = 'block'; // ou 'inline-block';
+            butonPdf.style.display = 'block';
         } else {
-            console.error("Elemento #dataAtual não encontrado.");
+            console.log('Dia comum: botão será escondido. ' + dia);
+            butonZerarHoras.style.display = 'none';
+            butonPdf.style.display = 'none';
         }
-    });
 
-    function preencherHora(tipo) {
-    const dataAtual = new Date();
-    const horaFormatada = dataAtual.toLocaleTimeString('pt-BR', {
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-
-    switch (tipo) {
-        case 'entrada':
-            document.getElementById('inputHoraEntrada').value = horaFormatada;
-            break;
-        case 'pausa':
-            document.getElementById('inputPausa').value = horaFormatada;
-            break;
-        case 'retorno':
-            document.getElementById('inputRetorno').value = horaFormatada;
-            break;
-        case 'saida':
-            document.getElementById('inputHoraSaida').value = horaFormatada;
-            break;
+    } else {
+        console.error("Elemento #dataAtual não encontrado.");
     }
-}
-
+    });
 
 
 </script>
+
+<!--Script para salvar as horas-->
+<script src="/js/salvarHora.js"></script>
+
 
 <!--Script para dados das horas-->
-<script>
-document.querySelectorAll('.btn-tempo').forEach(botao => {
-    //Função para salvar as horas de cada botão
-    botao.addEventListener('click', async () => {
-        const tipo = botao.getAttribute('data-tipo');
-
-        const dataAtual = new Date();
-        const horaFormatada = dataAtual.toLocaleTimeString('pt-BR', {
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-
-        // Preencher o campo correspondente
-        const inputId = {
-            entrada: 'inputHoraEntrada',
-            pausa: 'inputPausa',
-            retorno: 'inputRetorno',
-            saida: 'inputHoraSaida'
-        }[tipo];
-
-        if (inputId) {
-            document.getElementById(inputId).value = horaFormatada;
-        }
-
-        // Enviar pro servidor
-        try {
-            const resposta = await fetch('/admin/salvar-tempo', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ tipo })
-            });
-
-            if (!resposta.ok) throw new Error('Erro ao salvar tempo');
-
-            const dados = await resposta.json();
-            console.log('Tempo salvo:', dados);
-
-            location.reload();
-        } catch (error) {
-            console.error('Erro ao salvar hora:', error);
-        }
+<script src="/js/horaExtra.js"></script>
 
 
-    });
-});
+<script src="/js/cronometro.js"></script>
 
-
-async function carregarTempos() {
-  try {
-    const res = await fetch('/admin/carregar-tempos');
-    const data = await res.json();
-
-    const mapa = {
-      horaEntrada: 'horaEntrada',
-      horaPausa: 'horaPausa',
-      horaRetorno: 'horaRetorno',
-      horaSaida: 'horaSaida'
-    };
-
-    // Preenche os horários
-    Object.entries(mapa).forEach(([campo, id]) => {
-      const el = document.getElementById(id);
-      if (el && data[campo]) {
-        const hora = new Date(data[campo]).toLocaleTimeString('pt-BR', {
-          hour: '2-digit',
-          minute: '2-digit'
-        });
-        el.textContent = hora;
-      }
-    });
-
-    // Função para formatar decimal para HH:mm
-    function formatarDecimalParaHorasMinutos(decimal) {
-      if (typeof decimal !== 'number' || isNaN(decimal)) return '00:00';
-
-      const horas = Math.floor(decimal);
-      const minutos = Math.round((decimal - horas) * 60);
-
-      const horasStr = horas.toString().padStart(2, '0');
-      const minutosStr = minutos.toString().padStart(2, '0');
-
-      return `${horasStr}:${minutosStr}`;
-    }
-
-    // Preenche os totais, extras e faltas
-    if (data.total !== undefined) {
-      const total = data.total || 0;
-      const extra = data.horaExtra || 0;
-      const falta = data.horaFalta || 0;
-
-      preencherBarraHorasExtras(extra);
-
-      document.getElementById('totalTrabalhado').textContent = formatarDecimalParaHorasMinutos(total);
-      document.getElementById('horaExtra').textContent = formatarDecimalParaHorasMinutos(extra);
-      document.getElementById('horaFalta').textContent = formatarDecimalParaHorasMinutos(falta);
-    }
-
-    // Função para iniciar o cronômetro
-    function iniciarCronometro(desde) {
-      const tempoInicial = new Date(desde);
-      const elemento = document.getElementById('cronometro');
-
-      if (!elemento) return;
-
-      setInterval(() => {
-        const agora = new Date();
-        const diffMs = agora - tempoInicial;
-
-        const diffSegundos = Math.floor(diffMs / 1000);
-        const h = String(Math.floor(diffSegundos / 3600)).padStart(2, '0');
-        const m = String(Math.floor((diffSegundos % 3600) / 60)).padStart(2, '0');
-        const s = String(diffSegundos % 60).padStart(2, '0');
-
-        elemento.textContent = `${h}:${m}:${s}`;
-      }, 1000);
-    }
-
-    
-    // Inicia o cronômetro com base na hora mais recente registrada
-    if (data.horaEntrada && !data.horaSaida) {
-    if (data.horaRetorno && !data.horaSaida) {
-        iniciarCronometro(data.horaRetorno); // Após retorno, contar tempo de trabalho
-    } else if (data.horaEntrada && !data.horaPausa) {
-        iniciarCronometro(data.horaEntrada); // Início do expediente
-    }
-    }
-
-
-  } catch (err) {
-    console.error('Erro ao carregar horas:', err);
-  }
-}
-
-// Roda quando a página estiver pronta
-document.addEventListener('DOMContentLoaded', () => {
-  carregarTempos();
-});
-
-function preencherBarraHorasExtras(horasExtras) {
-  const maxHorasExtras = 8; // valor máximo da barra
-  const percentual = Math.min((horasExtras / maxHorasExtras) * 100, 100);
-
-  const barra = document.getElementById('divCarregamento');
-  barra.style.width = `${percentual}%`;
-  barra.textContent = `${horasExtras.toFixed(2)}h`;
-}
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    const spansBase = {
-        entrada: document.getElementById("horaEntrada"),
-        pausa: document.getElementById("horaPausa"),
-        volta: document.getElementById("horaRetorno"),
-        saida: document.getElementById("horaSaida")
-    };
-
-
-    let currentInterval = null;
-
-    function parseTimeToDate(horaString) {
-        const [h, m, s] = horaString.split(":").map(Number);
-        const data = new Date();
-        data.setHours(h, m, s, 0);
-        return data;
-    }
-
-    function iniciarCronometro(tipo) {
-        if (currentInterval) clearInterval(currentInterval);
-
-        const baseHora = spansBase[tipo].textContent.trim();
-        const baseDate = parseTimeToDate(baseHora);
-
-        currentInterval = setInterval(() => {
-            const agora = new Date();
-            const diff = agora - baseDate;
-
-            if (diff < 0) return; // ainda não chegou na hora base
-
-            const h = String(Math.floor(diff / 3600000)).padStart(2, '0');
-            const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
-            const s = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
-
-            spansCrono[tipo].textContent = `${h}:${m}:${s}`;
-        }, 1000);
-
-        localStorage.setItem("cronometroAtivo", tipo);
-    }
-
-    // Botões
-    document.getElementById("btnEntrada").addEventListener("click", () => iniciarCronometro("entrada"));
-    document.getElementById("btnPausa").addEventListener("click", () => iniciarCronometro("pausa"));
-    document.getElementById("btnVolta").addEventListener("click", () => iniciarCronometro("volta"));
-    document.getElementById("btnSaida").addEventListener("click", () => iniciarCronometro("saida"));
-
-    // Recuperar cronômetro ativo ao recarregar
-    const ativo = localStorage.getItem("cronometroAtivo");
-    if (ativo) iniciarCronometro(ativo);
-});
-
-
-function preencherBarraTempoReal(idBarra, horaInicio, horaFim) {
-  const barra = document.getElementById(idBarra);
-  if (!barra || !horaInicio || !horaFim) return;
-
-  const inicioMS = new Date(horaInicio).getTime();
-  const fimMS = new Date(horaFim).getTime();
-
-  const totalMS = fimMS - inicioMS;
-
-  if (totalMS <= 0) return;
-
-  const intervalo = setInterval(() => {
-    const agoraMS = new Date().getTime();
-    const percorrido = agoraMS - inicioMS;
-    let porcentagem = (percorrido / totalMS) * 100;
-
-    if (porcentagem >= 100) {
-      porcentagem = 100;
-      clearInterval(intervalo); // para quando atingir 100%
-    }
-
-    barra.style.backgroundColor = idBarra === 'progresso1' ? '#4caf50' : '#2196f3';
-    barra.style.width = `${porcentagem}%`;
-  }, 1000); // atualiza a cada 1 segundo
-}
-
-
-// Simulando o preenchimento da barra com 100% ao clicar
-document.addEventListener('DOMContentLoaded', () => {
-  if (data.horaEntrada && data.horaPausa) {
-    preencherBarraTempoReal('progresso1', data.horaEntrada, data.horaPausa);
-  }
-
-  if (data.horaRetorno && data.horaSaida) {
-    preencherBarraTempoReal('progresso2', data.horaRetorno, data.horaSaida);
-  }
-});
-
-
-
-</script>
-
-<!--Script para o cronômetro-->
-<script>
-
-</script>
+<!--Script para gerar pdf da tabela de horas mensal-->
+<script src="/js/pdfMensal.js"></script>
 
 
 <!-- Botão para limpar horas -->
 <script>
-  document.getElementById('limparHorasBtn').addEventListener('click', () => {
-  if (confirm('Deseja apenas limpar os horários visíveis da tela?')) {
-    // Apenas os campos do dia
-    const camposParaLimpar = ['horaEntrada', 'horaPausa', 'horaRetorno', 'horaSaida'];
-    
-    camposParaLimpar.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = '--:--'; // Ou vazio: ''
-    });
-  }
-});
-
-
-
 
   document.getElementById('formZerarHoras').addEventListener('submit', async function (e) {
     e.preventDefault();
